@@ -1,0 +1,2222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="برنامج الحسام لإدارة شئون المحاماة - نظام متكامل">
+<title>برنامج الحسام | إدارة شئون المحاماة</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+/* ============================================================
+   برنامج الحسام لإدارة شئون المحاماة — الإصدار 1.0.0
+   المحامي: حسام محمد | واتساب: 01016000360
+   hossammohamedlawyer@gmail.com
+   ============================================================ */
+:root {
+  --gold:#C9A84C; --gold-l:#E8C96E; --gold-d:#9A7A32; --gold-bg:rgba(201,168,76,.09);
+  --navy:#0D1B2A; --navy2:#1A2B3C; --navy3:#243447;
+  --cream:#FAF7F0; --cream2:#F0EBE0;
+  --text:#1A1A2E; --muted:#6B7280; --light:#9CA3AF;
+  --red:#DC2626; --red-bg:rgba(220,38,38,.08);
+  --green:#059669; --green-bg:rgba(5,150,105,.08);
+  --amber:#D97706; --amber-bg:rgba(217,119,6,.08);
+  --blue:#2563EB; --blue-bg:rgba(37,99,235,.08);
+  --purple:#7C3AED; --purple-bg:rgba(124,58,237,.08);
+  --border:rgba(0,0,0,.06); --border-g:rgba(201,168,76,.18);
+  --sh:0 4px 20px rgba(13,27,42,.09); --sh-lg:0 8px 40px rgba(13,27,42,.13);
+  --r:12px; --rs:8px; --rl:16px;
+  --sw:265px; --th:62px;
+  --f:'Segoe UI',Tahoma,Arial,sans-serif;
+  --tr:all .22s ease;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--cream);color:var(--text);direction:rtl;min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.6}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--f)}
+input,select,textarea{font-family:var(--f)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
+
+/* LAYOUT */
+.app{display:flex;min-height:100vh}
+.main{margin-right:var(--sw);flex:1;display:flex;flex-direction:column;min-width:0;transition:margin-right .3s}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--cream);color:var(--text);border-left:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;right:0;height:100vh;z-index:200;overflow-y:auto;overflow-x:hidden;transition:transform .3s,width .3s;box-shadow:-2px 0 16px rgba(0,0,0,.06)}
+.sidebar.collapsed{width:68px}
+.sidebar.collapsed .nl,.sidebar.collapsed .nt,.sidebar.collapsed .nb,.sidebar.collapsed .lt,.sidebar.collapsed .ls,.sidebar.collapsed .ui{display:none}
+.sidebar.collapsed .lw{justify-content:center;padding:16px 8px}
+.sidebar.collapsed .ni{justify-content:center;padding:12px 8px}
+.sidebar.collapsed .ni i{margin:0}
+.sidebar.collapsed .sf{padding:8px}
+.sidebar.collapsed .uc{justify-content:center}
+
+/* Logo */
+.lw{display:flex;align-items:center;gap:12px;padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+.li{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(201,168,76,.3)}
+.lt{flex:1}
+.ln{font-size:15px;font-weight:700;color:var(--navy)}
+.ls{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* Nav */
+.ns{padding:14px 10px 6px}
+.nl{font-size:10px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1.2px;padding:0 10px;margin-bottom:4px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rs);cursor:pointer;transition:var(--tr);font-size:13px;color:var(--text);position:relative;margin-bottom:2px}
+.ni:hover{background:var(--gold-bg);color:var(--navy)}
+.ni.active{background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.08));color:var(--gold-d);border-right:3px solid var(--gold)}
+.ni i{font-size:18px;min-width:20px;flex-shrink:0}
+.nt{flex:1}
+.nb{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;line-height:1.6}
+.nb.g{background:var(--gold-d)}
+.nb.b{background:var(--blue)}
+
+/* Sidebar footer */
+.sf{margin-top:auto;padding:12px;border-top:1px solid var(--border)}
+.uc{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);background:rgba(13,27,42,.04);cursor:pointer;transition:var(--tr)}
+.uc:hover{background:rgba(13,27,42,.07)}
+.ua{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--navy);flex-shrink:0;border:2px solid rgba(201,168,76,.3)}
+.ui{flex:1;min-width:0}
+.un{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ur{font-size:11px;color:var(--gold-d);opacity:.9}
+
+/* TOPBAR */
+.topbar{height:var(--th);background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(13,27,42,.06)}
+.tb-title{flex:1}
+.tb-title h1{font-size:18px;font-weight:700;color:var(--navy);line-height:1.2}
+.tb-title p{font-size:12px;color:var(--muted);margin-top:1px}
+.tb-actions{display:flex;align-items:center;gap:8px}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--border-g);border-radius:20px;padding:7px 14px;min-width:220px;transition:var(--tr)}
+.search-box:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.search-box input{border:none;background:transparent;font-size:13px;color:var(--text);outline:none;width:160px;font-family:var(--f)}
+.search-box input::placeholder{color:var(--light)}
+.search-box i{color:var(--light);font-size:15px}
+.ib{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;transition:var(--tr);position:relative;color:var(--muted)}
+.ib:hover{background:var(--cream);border-color:var(--gold);color:var(--gold-d)}
+.ib i{font-size:18px}
+.nd{position:absolute;top:7px;left:7px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid #fff}
+.date-b{background:var(--navy);color:var(--gold-l);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.tb-tog{width:38px;height:38px;border:none;background:none;display:flex;align-items:center;justify-content:center;color:var(--muted);border-radius:var(--rs);transition:var(--tr)}
+.tb-tog:hover{background:var(--cream);color:var(--navy)}
+.tb-tog i{font-size:20px}
+
+/* CONTENT */
+.content{padding:24px;flex:1}
+.page{display:none;animation:fadeIn .25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.sc{background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--border);position:relative;overflow:hidden;cursor:pointer;transition:var(--tr)}
+.sc:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.sc::after{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--ac,var(--gold))}
+.si{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:14px;background:var(--ib,var(--gold-bg));color:var(--ic,var(--gold-d))}
+.sn{font-size:30px;font-weight:800;color:var(--navy);line-height:1}
+.sl{font-size:13px;color:var(--muted);margin-top:4px}
+.st{font-size:11px;margin-top:8px;display:flex;align-items:center;gap:4px}
+.tu{color:var(--green)}.td{color:var(--red)}.tn{color:var(--muted)}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);border:1px solid var(--border);overflow:hidden}
+.ch{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.ct i{color:var(--gold);font-size:18px}
+.cb{padding:20px}
+.cbf{padding:0}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mb16{margin-bottom:16px}
+.mb20{margin-bottom:20px}
+.mb24{margin-bottom:24px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;border:none;transition:var(--tr);white-space:nowrap;font-family:var(--f)}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy)}
+.bp:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(201,168,76,.35)}
+.bo{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.bo:hover{border-color:var(--gold);color:var(--gold-d);background:var(--gold-bg)}
+.bd{background:var(--red-bg);color:var(--red);border:1px solid rgba(220,38,38,.2)}
+.bd:hover{background:var(--red);color:#fff}
+.bg{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,.2)}
+.bg:hover{background:var(--green);color:#fff}
+.bn{background:var(--navy);color:var(--gold-l)}
+.bn:hover{background:var(--navy2)}
+.bs{padding:5px 12px;font-size:12px}
+.bl{padding:11px 22px;font-size:14px}
+.bi{padding:7px}
+.bbl{width:100%;justify-content:center}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.bsg{background:var(--green-bg);color:#047857}
+.bsd{background:var(--red-bg);color:#b91c1c}
+.bsw{background:var(--amber-bg);color:#b45309}
+.bsi{background:var(--blue-bg);color:#1d4ed8}
+.bso{background:rgba(201,168,76,.12);color:var(--gold-d)}
+.bsn{background:rgba(13,27,42,.08);color:var(--navy)}
+.bsp{background:var(--purple-bg);color:#6d28d9}
+.bsm{background:rgba(107,114,128,.1);color:#4b5563}
+
+/* TABLE */
+.tw{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.dt{width:100%;border-collapse:collapse;font-size:13px}
+.dt thead th{padding:11px 14px;text-align:right;font-size:11px;font-weight:700;color:var(--muted);background:var(--cream);border-bottom:1px solid var(--border);white-space:nowrap;text-transform:uppercase;letter-spacing:.5px}
+.dt tbody td{padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.04);vertical-align:middle}
+.dt tbody tr:last-child td{border-bottom:none}
+.dt tbody tr{cursor:pointer;transition:background .15s}
+.dt tbody tr:hover td{background:var(--cream)}
+
+/* FORMS */
+.fg{margin-bottom:16px}
+.fl{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.fl .req{color:var(--red);margin-right:2px}
+.fc{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text);background:#fff;outline:none;font-family:var(--f);transition:border-color .2s,box-shadow .2s}
+.fc:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.fc::placeholder{color:var(--light)}
+select.fc{cursor:pointer}
+textarea.fc{resize:vertical;min-height:80px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fhint{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* TABS */
+.tabs{display:flex;border-bottom:2px solid var(--border);gap:2px;margin-bottom:20px;overflow-x:auto}
+.tbb{padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:var(--tr);border-radius:var(--rs) var(--rs) 0 0;white-space:nowrap}
+.tbb:hover{color:var(--navy);background:var(--cream)}
+.tbb.active{color:var(--gold-d);border-bottom-color:var(--gold)}
+.tp{display:none}
+.tp.active{display:block;animation:fadeIn .2s ease}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(13,27,42,.55);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(3px);padding:16px}
+.mo.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:var(--rl);width:580px;max-width:100%;max-height:88vh;overflow-y:auto;transform:scale(.94) translateY(12px);transition:transform .25s;box-shadow:var(--sh-lg)}
+.mo.open .modal{transform:scale(1) translateY(0)}
+.mh{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2}
+.mt{font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.mt i{color:var(--gold)}
+.mb{padding:22px 24px}
+.mf{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+/* AVATAR */
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0}
+.av-b{background:linear-gradient(135deg,#3B82F6,#1D4ED8);color:#fff}
+.av-p{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff}
+.av-g{background:linear-gradient(135deg,#059669,#047857);color:#fff}
+.av-r{background:linear-gradient(135deg,#DC2626,#B91C1C);color:#fff}
+
+/* PROGRESS */
+.prg{height:6px;background:var(--cream2);border-radius:3px;overflow:hidden}
+.pb{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));border-radius:3px;transition:width .7s ease}
+.pb-b{background:linear-gradient(90deg,var(--blue),#60A5FA)}
+.pb-g{background:linear-gradient(90deg,var(--green),#34D399)}
+.pb-r{background:linear-gradient(90deg,var(--red),#F87171)}
+.pb-a{background:linear-gradient(90deg,var(--amber),#FCD34D)}
+
+/* TIMELINE */
+.tl{position:relative;padding-right:22px}
+.tl::before{content:'';position:absolute;right:7px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.tli{position:relative;padding-right:24px;margin-bottom:18px}
+.tld{position:absolute;right:-16px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:2px solid #fff;box-shadow:0 0 0 3px rgba(201,168,76,.2)}
+.tld.r{background:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.15)}
+.tld.g{background:var(--green);box-shadow:0 0 0 3px rgba(5,150,105,.15)}
+.tld.b{background:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.tlb{background:var(--cream);border-radius:var(--rs);padding:12px 14px;border:1px solid var(--border)}
+.tlt{font-size:11px;color:var(--muted);margin-bottom:3px}
+.tlh{font-size:13px;font-weight:600;color:var(--navy)}
+.tls{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* FILTER */
+.fr{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.fc2{padding:5px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);transition:var(--tr)}
+.fc2:hover{border-color:var(--gold);color:var(--gold-d)}
+.fc2.active{background:var(--navy);color:var(--gold-l);border-color:var(--navy)}
+
+/* KPI */
+.kr{display:flex;gap:10px;flex-wrap:wrap}
+.kc{flex:1;min-width:90px;background:var(--cream);border-radius:var(--rs);padding:12px 14px;text-align:center;border:1px solid var(--border)}
+.kv{font-size:22px;font-weight:800;color:var(--navy);line-height:1}
+.kl{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* CHARTS */
+.bc{display:flex;align-items:flex-end;gap:6px;height:110px}
+.bi2{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bf{width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-d));border-radius:4px 4px 0 0;transition:height .7s;min-height:4px}
+.bf-b{background:linear-gradient(180deg,#3B82F6,#1D4ED8)}
+.bf-g{background:linear-gradient(180deg,#059669,#047857)}
+.bf-r{background:linear-gradient(180deg,#DC2626,#B91C1C)}
+.bf-o{background:linear-gradient(180deg,var(--gold),var(--gold-d))}
+.bv{font-size:10px;font-weight:700;color:var(--muted)}
+.blb{font-size:10px;color:var(--muted)}
+
+/* ALERTS */
+.al{padding:12px 16px;border-radius:var(--rs);font-size:13px;display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.al i{font-size:18px;flex-shrink:0;margin-top:1px}
+.al-w{background:var(--amber-bg);color:#92400E;border:1px solid rgba(217,119,6,.2)}
+.al-i{background:var(--blue-bg);color:#1e3a8a;border:1px solid rgba(37,99,235,.2)}
+.al-s{background:var(--green-bg);color:#064e3b;border:1px solid rgba(5,150,105,.2)}
+.al-d{background:var(--red-bg);color:#7f1d1d;border:1px solid rgba(220,38,38,.2)}
+
+/* NOTIFS */
+.ni2{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.ni2:last-child{border-bottom:none}
+.ni2:hover{background:var(--cream)}
+.ni2.unread{background:rgba(201,168,76,.03)}
+.ni2-ic{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ni2-b{flex:1}
+.ni2-t{font-size:13px;color:var(--text)}
+.ni2-s{font-size:11px;color:var(--light);margin-top:2px}
+.ni2-d{width:7px;height:7px;background:var(--gold);border-radius:50%;margin-top:6px;flex-shrink:0}
+
+/* DOCS */
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px}
+.dc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:var(--tr);text-align:center}
+.dc:hover{transform:translateY(-2px);box-shadow:var(--sh);border-color:var(--gold)}
+.di{font-size:32px;margin-bottom:8px}
+.dn{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.dm{font-size:11px;color:var(--muted)}
+
+/* PORTAL */
+.ph{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:var(--rl);padding:28px;color:#fff;position:relative;overflow:hidden;margin-bottom:22px}
+.ph::before{content:'';position:absolute;top:-40px;left:-40px;width:160px;height:160px;background:rgba(201,168,76,.08);border-radius:50%}
+.ph::after{content:'';position:absolute;bottom:-30px;right:40px;width:120px;height:120px;background:rgba(201,168,76,.05);border-radius:50%}
+.ph>*{position:relative;z-index:1}
+
+/* CALENDAR */
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cdh{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+.cdn{text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:4px 0}
+.cd{text-align:center;padding:7px 4px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .15s;position:relative}
+.cd:hover{background:var(--cream2)}
+.cd.today{background:var(--navy);color:var(--gold-l);font-weight:700;border-radius:8px}
+.cd.has-s::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.cd.other{color:var(--light);pointer-events:none}
+
+/* UTIL */
+.df{display:flex}.ac{align-items:center}.jb{justify-content:space-between}
+.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}
+.f1{flex:1}.fw{width:100%}
+.ltr{direction:ltr}
+.fm{font-weight:700}.f6{font-weight:600}.fx{font-size:11px}.fsm{font-size:12px}.fxs{font-size:10px}
+.c-n{color:var(--navy)}.c-m{color:var(--muted)}.c-g{color:var(--gold-d)}.c-r{color:var(--red)}.c-gr{color:var(--green)}.c-a{color:var(--amber)}
+.ph-h{text-align:center}
+.sep{border:none;border-top:1px solid var(--border);margin:16px 0}
+.info-r{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;font-size:13px}
+.info-r i{color:var(--gold);font-size:16px;margin-top:1px;flex-shrink:0}
+.info-lb{color:var(--muted);min-width:90px}
+.info-vl{color:var(--navy);font-weight:600}
+.ds{background:var(--cream);border-radius:var(--rs);padding:14px;margin-bottom:12px}
+.ds h4{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.li-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.li-item:hover{background:var(--cream)}
+.li-item:last-child{border-bottom:none}
+.li-ic{width:40px;height:40px;border-radius:10px;background:var(--gold-bg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.li-b{flex:1}
+.li-t{font-size:13px;font-weight:600;color:var(--navy)}
+.li-s{font-size:11px;color:var(--muted);margin-top:2px}
+.res-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.res-item:last-child{border-bottom:none}
+.res-l{font-size:13px;color:var(--blue);text-decoration:underline;cursor:pointer}
+.op-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.op-row:last-child{border-bottom:none}
+.ph-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.chk{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px}
+input[type=checkbox],input[type=radio]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
+.empty{text-align:center;padding:56px 24px;color:var(--muted)}
+.empty i{font-size:52px;color:var(--cream2);display:block;margin-bottom:14px}
+.empty h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+
+/* CONFIRM MODAL */
+.confirm-mo{position:fixed;inset:0;background:rgba(13,27,42,.55);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(3px)}
+.confirm-mo.open{opacity:1;pointer-events:all}
+.confirm-box{background:#fff;border-radius:var(--rl);width:360px;max-width:95%;padding:28px 24px;box-shadow:var(--sh-lg);transform:scale(.94);transition:transform .2s;text-align:center}
+.confirm-mo.open .confirm-box{transform:scale(1)}
+.confirm-icon{font-size:40px;margin-bottom:12px}
+.confirm-msg{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.confirm-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.sg{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(100%)}
+  .sidebar.mob{transform:translateX(0)}
+  .main{margin-right:0}
+  .sg{grid-template-columns:repeat(2,1fr)}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+  .search-box{min-width:140px}
+  .search-box input{width:90px}
+  .date-b{display:none}
+  .content{padding:14px}
+  .dt{font-size:12px}
+  .dt thead th,.dt tbody td{padding:8px 10px}
+  .modal{width:100%!important;max-width:100%!important;border-radius:14px 14px 0 0!important;margin:0!important}
+}
+@media(max-width:480px){.sg{grid-template-columns:1fr}}
+@media print{.sidebar,.topbar,.no-print{display:none!important}.main{margin-right:0!important}.page{display:block!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="lw">
+    <div class="li">⚖️</div>
+    <div class="lt">
+      <div class="ln">الحسام</div>
+      <div class="ls">إدارة شئون المحاماة</div>
+    </div>
+  </div>
+
+  <div class="ns">
+    <div class="nl">الرئيسية</div>
+    <div class="ni active" data-page="dashboard" onclick="go('dashboard')"><i class="ti ti-layout-dashboard"></i><span class="nt">لوحة التحكم</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">القضايا والموكلون</div>
+    <div class="ni" data-page="clients" onclick="go('clients')"><i class="ti ti-users"></i><span class="nt">الموكلون</span><span class="nb g">48</span></div>
+    <div class="ni" data-page="cases" onclick="go('cases')"><i class="ti ti-briefcase"></i><span class="nt">القضايا</span><span class="nb">6</span></div>
+    <div class="ni" data-page="sessions" onclick="go('sessions')"><i class="ti ti-calendar-event"></i><span class="nt">الجلسات</span><span class="nb">5</span></div>
+    <div class="ni" data-page="opponents" onclick="go('opponents')"><i class="ti ti-user-x"></i><span class="nt">الخصوم</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">الأعمال الإدارية</div>
+    <div class="ni" data-page="tasks" onclick="go('tasks')"><i class="ti ti-checklist"></i><span class="nt">المهام الإدارية</span><span class="nb">3</span></div>
+    <div class="ni" data-page="bailiff" onclick="go('bailiff')"><i class="ti ti-badge"></i><span class="nt">أعمال المحضرين</span></div>
+    <div class="ni" data-page="documents" onclick="go('documents')"><i class="ti ti-files"></i><span class="nt">المستندات</span></div>
+    <div class="ni" data-page="calendar" onclick="go('calendar')"><i class="ti ti-calendar"></i><span class="nt">التقويم</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">المالية</div>
+    <div class="ni" data-page="invoices" onclick="go('invoices')"><i class="ti ti-receipt"></i><span class="nt">الفواتير والمدفوعات</span></div>
+    <div class="ni" data-page="accounting" onclick="go('accounting')"><i class="ti ti-chart-pie"></i><span class="nt">المحاسبة</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">المكتبة القانونية</div>
+    <div class="ni" data-page="templates" onclick="go('templates')"><i class="ti ti-template"></i><span class="nt">النماذج القانونية</span></div>
+    <div class="ni" data-page="library" onclick="go('library')"><i class="ti ti-books"></i><span class="nt">المكتبة القانونية</span></div>
+    <div class="ni" data-page="resources" onclick="go('resources')"><i class="ti ti-link"></i><span class="nt">الموارد القانونية</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">النظام</div>
+    <div class="ni" data-page="reports" onclick="go('reports')"><i class="ti ti-chart-bar"></i><span class="nt">التقارير</span></div>
+    <div class="ni" data-page="portal" onclick="go('portal')"><i class="ti ti-shield-check"></i><span class="nt">بوابة الموكلين</span></div>
+    <div class="ni" data-page="settings" onclick="go('settings')"><i class="ti ti-settings"></i><span class="nt">الإعدادات</span></div>
+  </div>
+
+  <div class="sf">
+    <div class="uc">
+      <div class="ua">حم</div>
+      <div class="ui">
+        <div class="un">المحامي حسام محمد</div>
+        <div class="ur">مدير النظام</div>
+      </div>
+    </div>
+    <div class="df g8" style="margin-top:8px">
+      <button class="btn bo bs f1" style="font-size:11px;color:var(--muted);border-color:var(--border)" onclick="go('settings')"><i class="ti ti-settings"></i> إعدادات</button>
+      <button class="btn bo bs bi" style="font-size:11px;color:var(--muted);border-color:var(--border)" onclick="toast('تم تسجيل الخروج','info')"><i class="ti ti-logout"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="tb-tog" onclick="toggleSB()"><i class="ti ti-menu-2"></i></button>
+    <div class="tb-title">
+      <h1 id="pg-title">لوحة التحكم</h1>
+      <p id="pg-sub">نظرة عامة شاملة على المكتب</p>
+    </div>
+    <div class="tb-actions">
+      <div class="search-box">
+        <i class="ti ti-search"></i>
+        <input type="text" id="gsearch" placeholder="بحث في القضايا، الموكلين..." onkeyup="if(event.key==='Enter')gsrch(this.value)">
+      </div>
+      <button class="ib" onclick="go('calendar')" title="التقويم"><i class="ti ti-calendar"></i></button>
+      <button class="ib" onclick="openM('m-notif')" title="الإشعارات"><i class="ti ti-bell"></i><span class="nd"></span></button>
+      <div class="date-b">٤ يونيو ٢٠٢٦</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="sg mb20">
+        <div class="sc" style="--ac:var(--gold);--ib:var(--gold-bg);--ic:var(--gold-d)" onclick="go('cases')">
+          <div class="si"><i class="ti ti-briefcase"></i></div>
+          <div class="sn" id="kpi-dash-cases">47</div><div class="sl">إجمالي القضايا</div>
+          <div class="st"><span class="tu"><i class="ti ti-trending-up"></i> +8%</span> هذا الشهر</div>
+        </div>
+        <div class="sc" style="--ac:var(--blue);--ib:var(--blue-bg);--ic:var(--blue)" onclick="go('clients')">
+          <div class="si"><i class="ti ti-users"></i></div>
+          <div class="sn" id="kpi-dash-clients">48</div><div class="sl">إجمالي الموكلين</div>
+          <div class="st"><span class="tu"><i class="ti ti-trending-up"></i> +3</span> هذا الشهر</div>
+        </div>
+        <div class="sc" style="--ac:var(--green);--ib:var(--green-bg);--ic:var(--green)" onclick="go('sessions')">
+          <div class="si"><i class="ti ti-calendar-event"></i></div>
+          <div class="sn" id="kpi-dash-sess">5</div><div class="sl">جلسات قادمة</div>
+          <div class="st"><span class="tn"><i class="ti ti-clock"></i></span> هذا الأسبوع</div>
+        </div>
+        <div class="sc" style="--ac:var(--amber);--ib:var(--amber-bg);--ic:var(--amber)" onclick="go('invoices')">
+          <div class="si"><i class="ti ti-currency-pound"></i></div>
+          <div class="sn" id="kpi-dash-rev">85k</div><div class="sl">إجمالي الفواتير (ج.م)</div>
+          <div class="st"><span class="tu"><i class="ti ti-trending-up"></i> +12%</span> نمو</div>
+        </div>
+      </div>
+      <div class="g2 mb20">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-calendar-event"></i> الجلسات القادمة</div><button class="btn bo bs" onclick="go('sessions')">عرض الكل</button></div>
+          <div class="cbf">
+            <div class="tw"><table class="dt">
+              <thead><tr><th>القضية</th><th>المحكمة</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+              <tbody>
+                <tr onclick="go('sessions')"><td><div class="f6">مصطفى أحمد</div><div class="fx c-m">١٢٣/٢٠٢٦</div></td><td class="fx">الجيزة الابتدائية</td><td><div class="f6 c-r">٥ يونيو</div><div class="fx c-m">١٠:٠٠ ص</div></td><td><span class="badge bsd">غداً</span></td></tr>
+                <tr onclick="go('sessions')"><td><div class="f6">شركة النيل</div><div class="fx c-m">٨٩/٢٠٢٦</div></td><td class="fx">القاهرة التجارية</td><td><div class="f6">٨ يونيو</div><div class="fx c-m">١١:٣٠ ص</div></td><td><span class="badge bsi">هذا الأسبوع</span></td></tr>
+                <tr onclick="go('sessions')"><td><div class="f6">ليلى حسين</div><div class="fx c-m">٢٠١/٢٠٢٥</div></td><td class="fx">محكمة الأسرة</td><td><div class="f6">١٢ يونيو</div><div class="fx c-m">٩:٠٠ ص</div></td><td><span class="badge bsm">قادمة</span></td></tr>
+                <tr onclick="go('sessions')"><td><div class="f6">عمر سعيد</div><div class="fx c-m">٣٤٥/٢٠٢٦</div></td><td class="fx">محكمة الاستئناف</td><td><div class="f6">١٥ يونيو</div><div class="fx c-m">١٠:٣٠ ص</div></td><td><span class="badge bsm">قادمة</span></td></tr>
+              </tbody>
+            </table></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i> الإيرادات الشهرية (ألف ج.م)</div></div>
+            <div class="cb"><div class="bc" id="rev-chart"></div></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct"><i class="ti ti-alert-circle"></i> تنبيهات عاجلة</div></div>
+            <div class="cbf">
+              <div class="ni2 unread"><div class="ni2-ic" style="background:var(--red-bg)"><i class="ti ti-calendar-x" style="color:var(--red)"></i></div><div class="ni2-b"><div class="ni2-t">جلسة مصطفى أحمد غداً ١٠:٠٠ ص</div><div class="ni2-s">الجيزة الابتدائية — منذ ساعة</div></div><div class="ni2-d"></div></div>
+              <div class="ni2 unread"><div class="ni2-ic" style="background:var(--red-bg)"><i class="ti ti-receipt" style="color:var(--red)"></i></div><div class="ni2-b"><div class="ni2-t">فاتورة شركة النيل متأخرة السداد</div><div class="ni2-s">12,000 ج.م — منذ يومين</div></div><div class="ni2-d"></div></div>
+              <div class="ni2"><div class="ni2-ic" style="background:var(--blue-bg)"><i class="ti ti-file-upload" style="color:var(--blue)"></i></div><div class="ni2-b"><div class="ni2-t">مستند جديد — قضية ليلى حسين</div><div class="ni2-s">مذكرة دفاع — منذ ٣ أيام</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-users"></i> أحدث الموكلين</div><button class="btn bo bs" onclick="go('clients')">الكل</button></div>
+          <div class="cbf">
+            <div class="tw"><table class="dt">
+              <thead><tr><th>الموكل</th><th>النوع</th><th>القضايا</th><th>الحالة</th></tr></thead>
+              <tbody>
+                <tr onclick="go('clients')"><td><div class="df ac g8"><div class="av">مأ</div><div><div class="f6">مصطفى أحمد السيد</div><div class="fx c-m">0100-000-0001</div></div></div></td><td><span class="badge bso">فرد</span></td><td><span class="badge bsi">٣</span></td><td><span class="badge bsg">نشط</span></td></tr>
+                <tr onclick="go('clients')"><td><div class="df ac g8"><div class="av av-b">شن</div><div><div class="f6">شركة النيل للتجارة</div><div class="fx c-m">0102-000-0002</div></div></div></td><td><span class="badge bsp">شركة</span></td><td><span class="badge bsi">٢</span></td><td><span class="badge bsg">نشط</span></td></tr>
+                <tr onclick="go('clients')"><td><div class="df ac g8"><div class="av av-p">له</div><div><div class="f6">ليلى حسين عبدالله</div><div class="fx c-m">0103-000-0003</div></div></div></td><td><span class="badge bso">فرد</span></td><td><span class="badge bsi">١</span></td><td><span class="badge bsw">قيد النظر</span></td></tr>
+              </tbody>
+            </table></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-chart-donut"></i> مؤشرات الأداء</div></div>
+          <div class="cb">
+            <div class="kr mb16">
+              <div class="kc"><div class="kv" style="color:var(--green)" id="kpi-active">24</div><div class="kl">نشطة</div></div>
+              <div class="kc"><div class="kv" style="color:var(--amber)" id="kpi-pending">11</div><div class="kl">مؤجلة</div></div>
+              <div class="kc"><div class="kv" style="color:var(--blue)">8</div><div class="kl">استئناف</div></div>
+              <div class="kc"><div class="kv" style="color:var(--muted)" id="kpi-closed">4</div><div class="kl">مغلقة</div></div>
+            </div>
+            <div style="margin-bottom:12px"><div class="df jb fx" style="margin-bottom:4px"><span class="c-m">معدل إنجاز القضايا</span><span class="f6 c-gr">72%</span></div><div class="prg"><div class="pb pb-g" style="width:72%"></div></div></div>
+            <div style="margin-bottom:12px"><div class="df jb fx" style="margin-bottom:4px"><span class="c-m">نسبة الفوز</span><span class="f6" style="color:var(--blue)">84%</span></div><div class="prg"><div class="pb pb-b" style="width:84%"></div></div></div>
+            <div><div class="df jb fx" style="margin-bottom:4px"><span class="c-m">تحصيل الفواتير</span><span class="f6 c-a" id="kpi-coll-rate">91%</span></div><div class="prg"><div class="pb pb-a" id="kpi-coll-bar" style="width:91%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CLIENTS ══ -->
+    <div class="page" id="page-clients">
+      <div class="ph-hdr">
+        <div class="fr" style="margin:0">
+          <div class="fc2 active" onclick="filterClients('all',this)">الكل (48)</div>
+          <div class="fc2" onclick="filterClients('individual',this)">أفراد (35)</div>
+          <div class="fc2" onclick="filterClients('corporate',this)">شركات (13)</div>
+          <div class="fc2" onclick="filterClients('active',this)">نشط</div>
+        </div>
+        <button class="btn bp" onclick="openM('m-nclient')"><i class="ti ti-user-plus"></i> موكل جديد</button>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-users"></i> قائمة الموكلين</div>
+          <div class="search-box" style="min-width:200px"><i class="ti ti-search"></i><input type="text" placeholder="بحث بالاسم أو الهاتف..." oninput="searchTbl(this.value,'ctbody','clients')"></div>
+        </div>
+        <div class="cbf">
+          <div class="tw"><table class="dt">
+            <thead><tr><th>الموكل</th><th>الهاتف</th><th>النوع</th><th>القضايا</th><th>تاريخ التسجيل</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+            <tbody id="ctbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CASES ══ -->
+    <div class="page" id="page-cases">
+      <div class="ph-hdr">
+        <div class="fr" style="margin:0">
+          <div class="fc2 active" onclick="filterCases('all',this)">الكل (47)</div>
+          <div class="fc2" onclick="filterCases('active',this)">نشطة (24)</div>
+          <div class="fc2" onclick="filterCases('pending',this)">قيد النظر (11)</div>
+        </div>
+        <button class="btn bp" onclick="openM('m-ncase')"><i class="ti ti-plus"></i> قضية جديدة</button>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-briefcase"></i> قائمة القضايا</div>
+          <div class="search-box" style="min-width:200px"><i class="ti ti-search"></i><input type="text" placeholder="رقم القضية أو الموكل..."></div>
+        </div>
+        <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>رقم القضية</th><th>الموكل</th><th>المحكمة</th><th>النوع</th><th>الدرجة</th><th>الجلسة القادمة</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="castbody"></tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ══ SESSIONS ══ -->
+    <div class="page" id="page-sessions">
+      <div class="ph-hdr">
+        <div class="fr" style="margin:0">
+          <div class="fc2 active">هذا الأسبوع (3)</div>
+          <div class="fc2">هذا الشهر (18)</div>
+          <div class="fc2">السابقة (2)</div>
+        </div>
+        <button class="btn bp" onclick="openM('m-nsess')"><i class="ti ti-plus"></i> جلسة جديدة</button>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-list-details"></i> جدول الجلسات</div></div>
+          <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>القضية</th><th>المحكمة</th><th>التاريخ والوقت</th><th>القرار</th><th>التالية</th><th>الحالة</th><th></th></tr></thead><tbody id="sesstbody"></tbody></table></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="ch"><div class="ct"><i class="ti ti-calendar"></i> يونيو ٢٠٢٦</div>
+              <div class="df g8"><button class="btn bo bs bi" onclick="toast('الشهر السابق','info')"><i class="ti ti-chevron-right"></i></button><button class="btn bo bs bi" onclick="toast('الشهر التالي','info')"><i class="ti ti-chevron-left"></i></button></div>
+            </div>
+            <div class="cb">
+              <div class="cdh"><div class="cdn">أحد</div><div class="cdn">اثن</div><div class="cdn">ثلا</div><div class="cdn">أرب</div><div class="cdn">خمي</div><div class="cdn">جمع</div><div class="cdn">سبت</div></div>
+              <div class="cg" id="cal1"></div>
+              <div class="df g12" style="margin-top:12px;font-size:11px">
+                <span class="df ac g8"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block"></span> يوجد جلسة</span>
+                <span class="df ac g8"><span style="width:8px;height:8px;border-radius:50%;background:var(--navy);display:inline-block"></span> اليوم</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct"><i class="ti ti-bell"></i> إعدادات التذكير</div></div>
+            <div class="cb">
+              <div class="fx c-m mb16" style="margin-bottom:10px">إرسال تذكيرات تلقائية عبر:</div>
+              <label class="chk"><input type="checkbox" checked> واتساب (01016000360)</label>
+              <label class="chk"><input type="checkbox" checked> بريد إلكتروني (hossammohamedlawyer@gmail.com)</label>
+              <label class="chk"><input type="checkbox" checked> لوحة التحكم</label>
+              <label class="chk"><input type="checkbox" checked> تقويم Google</label>
+              <div class="sep"></div>
+              <div class="fx c-m">مواعيد التذكير: <strong>٣٠ يوم — ١٤ يوم — ٧ أيام — ٣ أيام — يوم — ساعة</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ OPPONENTS ══ -->
+    <div class="page" id="page-opponents">
+      <div class="ph-hdr"><div></div><button class="btn bp" onclick="openM('m-nopp')"><i class="ti ti-plus"></i> إضافة خصم</button></div>
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-user-x"></i> سجل الخصوم</div></div>
+        <div class="cbf" id="opplist">
+          <div class="op-row"><div class="av av-r">خأ</div><div class="f1"><div class="f6">خالد إبراهيم عوض</div><div class="fx c-m">القضية: ١٢٣/٢٠٢٦ | المحامي: أحمد فاروق</div></div><span class="badge bsd">جنائي</span><button class="btn bo bs bi"><i class="ti ti-eye"></i></button></div>
+          <div class="op-row"><div class="av av-b">شت</div><div class="f1"><div class="f6">شركة تجارة مصر القابضة</div><div class="fx c-m">القضية: ٨٩/٢٠٢٦ | المحامي: محمود نصر</div></div><span class="badge bsi">تجاري</span><button class="btn bo bs bi"><i class="ti ti-eye"></i></button></div>
+          <div class="op-row"><div class="av av-p">مم</div><div class="f1"><div class="f6">محمود مصطفى رشاد</div><div class="fx c-m">القضية: ٢٠١/٢٠٢٥ | غير ممثل</div></div><span class="badge bsp">أسرة</span><button class="btn bo bs bi"><i class="ti ti-eye"></i></button></div>
+          <div class="op-row"><div class="av av-g">نع</div><div class="f1"><div class="f6">نادية عبدالرحمن سالم</div><div class="fx c-m">القضية: ٣٤٥/٢٠٢٦ | المحامي: سامي حلمي</div></div><span class="badge bsw">مدني</span><button class="btn bo bs bi"><i class="ti ti-eye"></i></button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TASKS ══ -->
+    <div class="page" id="page-tasks">
+      <div class="ph-hdr">
+        <div class="fr" style="margin:0">
+          <div class="fc2 active">الكل</div><div class="fc2">عاجلة (3)</div><div class="fc2">معلقة (2)</div><div class="fc2">مكتملة</div>
+        </div>
+        <button class="btn bp" onclick="openM('m-ntask')"><i class="ti ti-plus"></i> مهمة جديدة</button>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-checklist"></i> المهام الإدارية</div></div>
+          <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>المهمة</th><th>القضية</th><th>النوع</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th><th></th></tr></thead><tbody id="tasktbody"></tbody></table></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-badge"></i> أعمال المحضرين</div><button class="btn bp bs" onclick="openM('m-ntask')"><i class="ti ti-plus"></i> طلب</button></div>
+          <div class="cb">
+            <div class="tl">
+              <div class="tli"><div class="tld"></div><div class="tlb"><div class="tlt">٤ يونيو ٢٠٢٦</div><div class="tlh">إعلان ورقة جلسة — مصطفى أحمد</div><div class="tls">الجيزة الابتدائية — <span class="badge bsw" style="font-size:10px">جارية</span></div></div></div>
+              <div class="tli"><div class="tld r"></div><div class="tlb"><div class="tlt">٣ يونيو ٢٠٢٦</div><div class="tlh">إخفاق في إعلان الخصم</div><div class="tls">قضية ٨٩/٢٠٢٦ — <span class="badge bsd" style="font-size:10px">فشل</span></div></div></div>
+              <div class="tli"><div class="tld g"></div><div class="tlb"><div class="tlt">١ يونيو ٢٠٢٦</div><div class="tlh">تسليم حكم التنفيذ</div><div class="tls">قضية ٢٠١/٢٠٢٥ — <span class="badge bsg" style="font-size:10px">مكتمل</span></div></div></div>
+              <div class="tli"><div class="tld g"></div><div class="tlb"><div class="tlt">٢٨ مايو ٢٠٢٦</div><div class="tlh">إخطار رسمي حكومي</div><div class="tls">قضية ٦٧/٢٠٢٤ — <span class="badge bsg" style="font-size:10px">مكتمل</span></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOCUMENTS ══ -->
+    <div class="page" id="page-documents">
+      <div class="ph-hdr">
+        <div class="fr" style="margin:0"><div class="fc2 active">الكل</div><div class="fc2">قضايا</div><div class="fc2">عقود</div><div class="fc2">توكيلات</div><div class="fc2">OCR</div></div>
+        <button class="btn bp" onclick="toast('رفع مستند — يتطلب تكامل Google Drive','info')"><i class="ti ti-upload"></i> رفع مستند</button>
+      </div>
+      <div class="dg">
+        <div class="dc" onclick="toast('فتح المستند','info')"><div class="di">📄</div><div class="dn">عقد اتفاقية تسوية</div><div class="dm">قضية ٨٩/٢٠٢٦ — شركة النيل</div><div style="margin-top:10px"><span class="badge bsg">موقع</span></div><div class="dm" style="margin-top:4px">٢ يونيو ٢٠٢٦</div></div>
+        <div class="dc" onclick="toast('فتح المستند','info')"><div class="di">📋</div><div class="dn">مذكرة دفاع</div><div class="dm">قضية ١٢٣/٢٠٢٦ — مصطفى</div><div style="margin-top:10px"><span class="badge bsi">مسودة</span></div><div class="dm" style="margin-top:4px">٤ يونيو ٢٠٢٦</div></div>
+        <div class="dc" onclick="toast('فتح المستند','info')"><div class="di">📝</div><div class="dn">توكيل رسمي</div><div class="dm">ليلى حسين — ٢٠٢٥</div><div style="margin-top:10px"><span class="badge bso">OCR ✓</span></div><div class="dm" style="margin-top:4px">١ أبريل ٢٠٢٥</div></div>
+        <div class="dc" onclick="toast('فتح المستند','info')"><div class="di">⚖️</div><div class="dn">صحيفة استئناف</div><div class="dm">قضية ٢٠١/٢٠٢٥ — ليلى</div><div style="margin-top:10px"><span class="badge bsg">مقدمة</span></div><div class="dm" style="margin-top:4px">١٥ مارس ٢٠٢٦</div></div>
+        <div class="dc" onclick="toast('فتح المستند','info')"><div class="di">📊</div><div class="dn">تقرير خبير محاسبي</div><div class="dm">قضية ٦٧/٢٠٢٤ — مجموعة العرب</div><div style="margin-top:10px"><span class="badge bso">OCR ✓</span></div><div class="dm" style="margin-top:4px">١٠ فبراير ٢٠٢٦</div></div>
+        <div class="dc" style="border:2px dashed var(--border-g);background:var(--cream)" onclick="toast('رفع مستند جديد','info')"><div class="di"><i class="ti ti-cloud-upload" style="color:var(--gold);font-size:28px"></i></div><div class="dn" style="color:var(--gold-d)">رفع مستند جديد</div><div class="dm">PDF, DOCX, صور</div></div>
+      </div>
+    </div>
+
+    <!-- ══ CALENDAR ══ -->
+    <div class="page" id="page-calendar">
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-calendar"></i> يونيو ٢٠٢٦</div><div class="df g8"><button class="btn bo bs">السابق</button><button class="btn bn bs">التالي</button></div></div>
+          <div class="cb">
+            <div class="cdh"><div class="cdn">أحد</div><div class="cdn">اثن</div><div class="cdn">ثلا</div><div class="cdn">أرب</div><div class="cdn">خمي</div><div class="cdn">جمع</div><div class="cdn">سبت</div></div>
+            <div class="cg" id="cal2"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-list"></i> أحداث يونيو ٢٠٢٦</div><button class="btn bp bs" onclick="openM('m-nsess')"><i class="ti ti-plus"></i> إضافة</button></div>
+          <div class="cbf">
+            <div class="ni2"><div class="ni2-ic" style="background:var(--red-bg)"><i class="ti ti-gavel" style="color:var(--red)"></i></div><div class="ni2-b"><div class="ni2-t f6">٥ يونيو — جلسة مصطفى أحمد</div><div class="ni2-s">الجيزة الابتدائية — ١٠:٠٠ ص</div></div></div>
+            <div class="ni2"><div class="ni2-ic" style="background:var(--blue-bg)"><i class="ti ti-gavel" style="color:var(--blue)"></i></div><div class="ni2-b"><div class="ni2-t f6">٨ يونيو — جلسة شركة النيل</div><div class="ni2-s">القاهرة التجارية — ١١:٣٠ ص</div></div></div>
+            <div class="ni2"><div class="ni2-ic" style="background:var(--purple-bg)"><i class="ti ti-gavel" style="color:var(--purple)"></i></div><div class="ni2-b"><div class="ni2-t f6">١٢ يونيو — جلسة ليلى حسين</div><div class="ni2-s">محكمة الأسرة — ٩:٠٠ ص</div></div></div>
+            <div class="ni2"><div class="ni2-ic" style="background:var(--amber-bg)"><i class="ti ti-gavel" style="color:var(--amber)"></i></div><div class="ni2-b"><div class="ni2-t f6">١٥ يونيو — جلسة عمر سعيد</div><div class="ni2-s">محكمة الاستئناف — ١٠:٣٠ ص</div></div></div>
+            <div class="ni2"><div class="ni2-ic" style="background:var(--gold-bg)"><i class="ti ti-gavel" style="color:var(--gold-d)"></i></div><div class="ni2-b"><div class="ni2-t f6">٢٠ يونيو — جلسة مجموعة العرب</div><div class="ni2-s">محكمة النقض — ١١:٠٠ ص</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ INVOICES ══ -->
+    <div class="page" id="page-invoices">
+      <div class="ph-hdr">
+        <div class="kr" style="margin:0">
+          <div class="kc"><div class="kv" id="kpi-t">—</div><div class="kl">إجمالي الشهر</div></div>
+          <div class="kc"><div class="kv" style="color:var(--green)" id="kpi-p">—</div><div class="kl">محصّل</div></div>
+          <div class="kc"><div class="kv" style="color:var(--red)" id="kpi-d">—</div><div class="kl">مستحق</div></div>
+        </div>
+        <button class="btn bp" onclick="openM('m-ninv')"><i class="ti ti-plus"></i> فاتورة جديدة</button>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-receipt"></i> الفواتير</div></div>
+        <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>رقم الفاتورة</th><th>الموكل</th><th>القضية</th><th>الخدمة</th><th>المبلغ</th><th>الاستحقاق</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="invtbody"></tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ══ ACCOUNTING ══ -->
+    <div class="page" id="page-accounting">
+      <div class="sg mb20">
+        <div class="sc" style="--ac:var(--green);--ib:var(--green-bg);--ic:var(--green)"><div class="si"><i class="ti ti-trending-up"></i></div><div class="sn">680k</div><div class="sl">إجمالي الإيرادات ٢٠٢٦</div></div>
+        <div class="sc" style="--ac:var(--red);--ib:var(--red-bg);--ic:var(--red)"><div class="si"><i class="ti ti-trending-down"></i></div><div class="sn">140k</div><div class="sl">إجمالي المصروفات</div></div>
+        <div class="sc" style="--ac:var(--gold);--ib:var(--gold-bg);--ic:var(--gold-d)"><div class="si"><i class="ti ti-coins"></i></div><div class="sn">540k</div><div class="sl">صافي الربح</div></div>
+        <div class="sc" style="--ac:var(--amber);--ib:var(--amber-bg);--ic:var(--amber)"><div class="si"><i class="ti ti-clock"></i></div><div class="sn">17.5k</div><div class="sl">مبالغ مستحقة</div></div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i> الإيرادات والمصروفات</div></div>
+          <div class="cb">
+            <div style="display:flex;align-items:flex-end;gap:6px;height:120px" id="acc-chart"></div>
+            <div class="df g16" style="margin-top:10px;font-size:12px">
+              <span class="df ac g8"><span style="width:10px;height:10px;background:var(--gold);border-radius:2px"></span>إيرادات</span>
+              <span class="df ac g8"><span style="width:10px;height:10px;background:var(--red);border-radius:2px"></span>مصروفات</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-list"></i> آخر المعاملات</div></div>
+          <div class="cbf">
+            <div class="tw"><table class="dt"><thead><tr><th>البند</th><th>النوع</th><th>المبلغ</th><th>التاريخ</th></tr></thead>
+            <tbody>
+              <tr><td class="f6">أتعاب قضية النقض</td><td><span class="badge bsg">إيراد</span></td><td class="f6 c-gr">25,000 ج.م</td><td class="fx">٢٠ مايو</td></tr>
+              <tr><td class="f6">رسوم محكمة</td><td><span class="badge bsd">مصروف</span></td><td class="f6 c-r">1,200 ج.م</td><td class="fx">١٨ مايو</td></tr>
+              <tr><td class="f6">استشارة قانونية</td><td><span class="badge bsg">إيراد</span></td><td class="f6 c-gr">5,000 ج.م</td><td class="fx">١٥ مايو</td></tr>
+              <tr><td class="f6">طباعة وتصوير</td><td><span class="badge bsd">مصروف</span></td><td class="f6 c-r">350 ج.م</td><td class="fx">١٢ مايو</td></tr>
+            </tbody></table></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TEMPLATES ══ -->
+    <div class="page" id="page-templates">
+      <div class="ph-hdr"><div></div><button class="btn bp" onclick="toast('إضافة نموذج قانوني جديد','info')"><i class="ti ti-plus"></i> إضافة نموذج</button></div>
+      <div class="g3">
+        <div class="dc" onclick="toast('فتح نموذج صحيفة دعوى','info')"><div class="di">📋</div><div class="dn">صحيفة دعوى</div><div class="dm">نموذج رسمي للدعوى القضائية</div></div>
+        <div class="dc" onclick="toast('فتح نموذج مذكرة دفاع','info')"><div class="di">⚖️</div><div class="dn">مذكرة دفاع</div><div class="dm">مذكرة دفاع قانونية متكاملة</div></div>
+        <div class="dc" onclick="toast('فتح نموذج صحيفة استئناف','info')"><div class="di">📄</div><div class="dn">صحيفة استئناف</div><div class="dm">استئناف الأحكام الابتدائية</div></div>
+        <div class="dc" onclick="toast('فتح نموذج صحيفة نقض','info')"><div class="di">🏛️</div><div class="dn">صحيفة نقض</div><div class="dm">الطعن بالنقض أمام محكمة النقض</div></div>
+        <div class="dc" onclick="toast('فتح نموذج إنذار رسمي','info')"><div class="di">📮</div><div class="dn">إنذار رسمي</div><div class="dm">إنذار قانوني رسمي موثق</div></div>
+        <div class="dc" onclick="toast('فتح نموذج عقد بيع','info')"><div class="di">🏠</div><div class="dn">عقد بيع</div><div class="dm">عقد بيع عقارات وأصول</div></div>
+        <div class="dc" onclick="toast('فتح نموذج عقد إيجار','info')"><div class="di">🔑</div><div class="dn">عقد إيجار</div><div class="dm">عقد إيجار سكني وتجاري</div></div>
+        <div class="dc" onclick="toast('فتح نموذج عقد عمل','info')"><div class="di">👔</div><div class="dn">عقد عمل</div><div class="dm">وفق قانون العمل المصري</div></div>
+        <div class="dc" onclick="toast('فتح نموذج توكيل','info')"><div class="di">📜</div><div class="dn">توكيل رسمي</div><div class="dm">توكيل قانوني لمأمور الشهر العقاري</div></div>
+      </div>
+    </div>
+
+    <!-- ══ LIBRARY ══ -->
+    <div class="page" id="page-library">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-books"></i> المكتبة القانونية</div><button class="btn bp bs" onclick="toast('إضافة مرجع قانوني','info')"><i class="ti ti-plus"></i> إضافة</button></div>
+        <div class="cbf">
+          <div class="li-item"><div class="li-ic">📚</div><div class="li-b"><div class="li-t">قانون العقوبات المصري</div><div class="li-s">القانون رقم ٥٨ لسنة ١٩٣٧ وتعديلاته</div></div><span class="badge bsd">قانون</span></div>
+          <div class="li-item"><div class="li-ic">⚖️</div><div class="li-b"><div class="li-t">قانون الإجراءات الجنائية</div><div class="li-s">القانون رقم ١٥٠ لسنة ١٩٥٠</div></div><span class="badge bsd">قانون</span></div>
+          <div class="li-item"><div class="li-ic">🏛️</div><div class="li-b"><div class="li-t">قانون المرافعات المدنية والتجارية</div><div class="li-s">القانون رقم ١٣ لسنة ١٩٦٨</div></div><span class="badge bsi">قانون</span></div>
+          <div class="li-item"><div class="li-ic">📋</div><div class="li-b"><div class="li-t">أحكام محكمة النقض — دوائر مدنية</div><div class="li-s">مجموعة أحكام ٢٠٢٠–٢٠٢٦</div></div><span class="badge bso">أحكام</span></div>
+          <div class="li-item"><div class="li-ic">📝</div><div class="li-b"><div class="li-t">لائحة المحكمة الاقتصادية</div><div class="li-s">اللائحة التنفيذية لقانون ١٢٠ لسنة ٢٠٠٨</div></div><span class="badge bsw">لائحة</span></div>
+          <div class="li-item"><div class="li-ic">🔍</div><div class="li-b"><div class="li-t">مبادئ قانونية في الاستئناف والنقض</div><div class="li-s">مذكرة إيضاحية — مكتب الحسام</div></div><span class="badge bsp">مذكرة</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RESOURCES ══ -->
+    <div class="page" id="page-resources">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-link"></i> الموارد القانونية</div><button class="btn bp bs" onclick="toast('إضافة مورد جديد','info')"><i class="ti ti-plus"></i> إضافة رابط</button></div>
+        <div class="cbf">
+          <div class="res-item"><div class="li-ic" style="margin-left:12px">🏛️</div><div class="f1"><div class="li-t">البوابة الإلكترونية لوزارة العدل</div><div class="li-s">استعلام عن القضايا والأحكام</div></div><a class="res-l" href="https://www.justice.gov.eg" target="_blank">justice.gov.eg ↗</a></div>
+          <div class="res-item"><div class="li-ic" style="margin-left:12px">⚖️</div><div class="f1"><div class="li-t">نقابة المحامين المصريين</div><div class="li-s">خدمات النقابة وتجديد القيد</div></div><a class="res-l" href="#" onclick="toast('فتح الموقع','info')">egyptlawyers.org ↗</a></div>
+          <div class="res-item"><div class="li-ic" style="margin-left:12px">📋</div><div class="f1"><div class="li-t">الجريدة الرسمية المصرية</div><div class="li-s">القوانين واللوائح الرسمية</div></div><a class="res-l" href="#" onclick="toast('فتح الموقع','info')">al-jarida.com ↗</a></div>
+          <div class="res-item"><div class="li-ic" style="margin-left:12px">🔍</div><div class="f1"><div class="li-t">منظومة المعلومات القانونية</div><div class="li-s">قاعدة بيانات التشريعات المصرية</div></div><a class="res-l" href="#" onclick="toast('فتح الموقع','info')">muqnn.eg ↗</a></div>
+          <div class="res-item"><div class="li-ic" style="margin-left:12px">💻</div><div class="f1"><div class="li-t">بوابة المحاكم الإلكترونية</div><div class="li-s">استعلام وتتبع القضايا إلكترونياً</div></div><a class="res-l" href="#" onclick="toast('فتح الموقع','info')">courts.eg ↗</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BAILIFF ══ -->
+    <div class="page" id="page-bailiff">
+      <div class="ph-hdr"><div></div><button class="btn bp" onclick="openM('m-ntask')"><i class="ti ti-plus"></i> طلب إعلان جديد</button></div>
+      <div class="g2">
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-badge"></i> طلبات الإعلان والتنفيذ</div></div>
+          <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>نوع الطلب</th><th>القضية</th><th>المُعلَن إليه</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+          <tbody>
+            <tr><td class="f6">إعلان ورقة جلسة</td><td>١٢٣/٢٠٢٦</td><td>خالد إبراهيم</td><td class="fx">٤ يونيو ٢٠٢٦</td><td><span class="badge bsw">جارية</span></td></tr>
+            <tr><td class="f6">إعلان حكم ابتدائي</td><td>٨٩/٢٠٢٦</td><td>شركة تجارة مصر</td><td class="fx">٣ يونيو ٢٠٢٦</td><td><span class="badge bsd">فشل</span></td></tr>
+            <tr><td class="f6">تنفيذ حكم نفقة</td><td>٢٠١/٢٠٢٥</td><td>محمود مصطفى</td><td class="fx">١ يونيو ٢٠٢٦</td><td><span class="badge bsg">مكتمل</span></td></tr>
+            <tr><td class="f6">إخطار رسمي</td><td>٦٧/٢٠٢٤</td><td>مجموعة العرب</td><td class="fx">٢٨ مايو ٢٠٢٦</td><td><span class="badge bsg">مكتمل</span></td></tr>
+          </tbody></table></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct"><i class="ti ti-chart-pie"></i> إحصاءات</div></div>
+          <div class="cb">
+            <div class="kr mb16"><div class="kc"><div class="kv" style="color:var(--amber)">2</div><div class="kl">جارية</div></div><div class="kc"><div class="kv" style="color:var(--green)">2</div><div class="kl">مكتملة</div></div><div class="kc"><div class="kv" style="color:var(--red)">1</div><div class="kl">فشل</div></div></div>
+            <div><div class="df jb fx" style="margin-bottom:4px"><span class="c-m">معدل نجاح الإعلانات</span><span class="f6 c-gr">75%</span></div><div class="prg"><div class="pb pb-g" style="width:75%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REPORTS ══ -->
+    <div class="page" id="page-reports">
+      <div class="tabs" id="rep-tabs">
+        <button class="tbb active" onclick="stab(this,'rt-cases','rep-tabs')">قضايا</button>
+        <button class="tbb" onclick="stab(this,'rt-fin','rep-tabs')">مالية</button>
+        <button class="tbb" onclick="stab(this,'rt-sess','rep-tabs')">جلسات</button>
+        <button class="tbb" onclick="stab(this,'rt-perf','rep-tabs')">أداء</button>
+      </div>
+      <div class="tp active" id="rt-cases">
+        <div class="sg mb20">
+          <div class="sc" style="--ac:var(--green);--ib:var(--green-bg);--ic:var(--green)"><div class="si"><i class="ti ti-briefcase"></i></div><div class="sn">47</div><div class="sl">إجمالي القضايا</div></div>
+          <div class="sc" style="--ac:var(--blue);--ib:var(--blue-bg);--ic:var(--blue)"><div class="si"><i class="ti ti-trophy"></i></div><div class="sn">84%</div><div class="sl">نسبة الفوز</div></div>
+          <div class="sc" style="--ac:var(--amber);--ib:var(--amber-bg);--ic:var(--amber)"><div class="si"><i class="ti ti-clock"></i></div><div class="sn">6.2</div><div class="sl">متوسط أشهر الإغلاق</div></div>
+          <div class="sc" style="--ac:var(--gold);--ib:var(--gold-bg);--ic:var(--gold-d)"><div class="si"><i class="ti ti-users"></i></div><div class="sn">48</div><div class="sl">إجمالي الموكلين</div></div>
+        </div>
+        <div class="card"><div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i> توزيع القضايا حسب النوع</div><button class="btn bo bs" onclick="exportToSheets()"><i class="ti ti-download"></i> Excel</button></div><div class="cb"><div class="bc" id="rep-case-chart"></div></div></div>
+      </div>
+      <div class="tp" id="rt-fin">
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i> الإيرادات والمصروفات</div></div><div class="cb"><div style="display:flex;align-items:flex-end;gap:6px;height:120px" id="rep-fin-chart"></div><div class="df g16" style="margin-top:10px;font-size:12px"><span class="df ac g8"><span style="width:10px;height:10px;background:var(--gold);border-radius:2px"></span>إيرادات</span><span class="df ac g8"><span style="width:10px;height:10px;background:var(--blue);border-radius:2px"></span>مصروفات</span></div></div></div>
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-coins"></i> ملخص مالي ٢٠٢٦</div></div><div class="cb"><div class="kr mb16"><div class="kc"><div class="kv" style="color:var(--green)">٦٨٠k</div><div class="kl">إجمالي الإيرادات</div></div><div class="kc"><div class="kv" style="color:var(--red)">١٤٠k</div><div class="kl">المصروفات</div></div></div><div class="kc" style="background:var(--navy);padding:18px;text-align:center;margin-top:10px"><div class="kv" style="color:var(--gold-l);font-size:28px">٥٤٠k ج.م</div><div class="kl" style="color:rgba(255,255,255,.5)">صافي الربح</div></div></div></div>
+        </div>
+      </div>
+      <div class="tp" id="rt-sess"><div class="card"><div class="ch"><div class="ct"><i class="ti ti-calendar-stats"></i> إحصاءات الجلسات</div></div><div class="cb"><div class="kr"><div class="kc"><div class="kv">47</div><div class="kl">إجمالي</div></div><div class="kc"><div class="kv" style="color:var(--green)">32</div><div class="kl">منتهية</div></div><div class="kc"><div class="kv" style="color:var(--amber)">15</div><div class="kl">قادمة</div></div><div class="kc"><div class="kv" style="color:var(--blue)">8</div><div class="kl">مؤجلة</div></div></div></div></div></div>
+      <div class="tp" id="rt-perf"><div class="card"><div class="ch"><div class="ct"><i class="ti ti-chart-line"></i> مؤشرات الأداء</div></div><div class="cb">
+        <div style="margin-bottom:14px"><div class="df jb fx" style="margin-bottom:6px"><span class="f6">معدل الفوز بالقضايا</span><span class="f6 c-gr">84%</span></div><div class="prg"><div class="pb pb-g" style="width:84%"></div></div></div>
+        <div style="margin-bottom:14px"><div class="df jb fx" style="margin-bottom:6px"><span class="f6">نسبة تحصيل الأتعاب</span><span class="f6 c-g">91%</span></div><div class="prg"><div class="pb" style="width:91%"></div></div></div>
+        <div style="margin-bottom:14px"><div class="df jb fx" style="margin-bottom:6px"><span class="f6">رضا الموكلين</span><span class="f6" style="color:var(--blue)">96%</span></div><div class="prg"><div class="pb pb-b" style="width:96%"></div></div></div>
+        <div><div class="df jb fx" style="margin-bottom:6px"><span class="f6">الالتزام بالمواعيد</span><span class="f6 c-r">78%</span></div><div class="prg"><div class="pb pb-r" style="width:78%"></div></div></div>
+      </div></div></div>
+    </div>
+
+    <!-- ══ PORTAL ══ -->
+    <div class="page" id="page-portal">
+      <div class="ph">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:6px">بوابة الموكلين الإلكترونية</h2>
+        <p style="font-size:13px;opacity:.7;margin-bottom:18px">وصول آمن للموكلين — مؤمَّن بـ UUID وتوكن مشفّر — لا يكشف أرقام قاعدة البيانات</p>
+        <div class="df g12" style="flex-wrap:wrap">
+          <button class="btn" style="background:var(--gold);color:var(--navy)" onclick="toast('تم توليد رابط وصول جديد ✓','success')"><i class="ti ti-qrcode"></i> توليد رابط جديد</button>
+          <button class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)" onclick="go('settings')"><i class="ti ti-settings"></i> إعدادات البوابة</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="ti ti-shield-check"></i> روابط الوصول النشطة</div></div>
+        <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>الموكل</th><th>رابط البوابة (UUID)</th><th>آخر دخول</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+        <tbody>
+          <tr><td><div class="df ac g8"><div class="av">مأ</div><span class="f6">مصطفى أحمد</span></div></td><td><code style="font-size:11px;background:var(--cream);padding:2px 8px;border-radius:4px;direction:ltr;display:inline-block">portal/a1b2c3d4-e5f6-7890</code></td><td class="fx">منذ ساعتين</td><td><span class="badge bsg">نشط</span></td><td><div class="df g8"><button class="btn bo bs bi" onclick="toast('عرض QR Code','info')"><i class="ti ti-qrcode"></i></button><button class="btn bo bs bi" onclick="toast('تم تجديد الرابط ✓','success')"><i class="ti ti-refresh"></i></button><button class="btn bd bs bi" onclick="if(confirm('إلغاء وصول مصطفى؟'))toast('تم الإلغاء','warning')"><i class="ti ti-x"></i></button></div></td></tr>
+          <tr><td><div class="df ac g8"><div class="av av-b">شن</div><span class="f6">شركة النيل</span></div></td><td><code style="font-size:11px;background:var(--cream);padding:2px 8px;border-radius:4px;direction:ltr;display:inline-block">portal/e5f6g7h8-i9j0-1234</code></td><td class="fx">منذ يوم</td><td><span class="badge bsg">نشط</span></td><td><div class="df g8"><button class="btn bo bs bi" onclick="toast('عرض QR Code','info')"><i class="ti ti-qrcode"></i></button><button class="btn bo bs bi" onclick="toast('تم التجديد ✓','success')"><i class="ti ti-refresh"></i></button><button class="btn bd bs bi" onclick="if(confirm('إلغاء وصول النيل؟'))toast('تم الإلغاء','warning')"><i class="ti ti-x"></i></button></div></td></tr>
+          <tr><td><div class="df ac g8"><div class="av av-p">له</div><span class="f6">ليلى حسين</span></div></td><td><code style="font-size:11px;background:var(--cream);padding:2px 8px;border-radius:4px;direction:ltr;display:inline-block">portal/i9j0k1l2-m3n4-5678</code></td><td class="fx">منذ ٣ أيام</td><td><span class="badge bsw">مقيَّد</span></td><td><div class="df g8"><button class="btn bo bs bi" onclick="toast('عرض QR Code','info')"><i class="ti ti-qrcode"></i></button><button class="btn bo bs bi" onclick="toast('تم التجديد ✓','success')"><i class="ti ti-refresh"></i></button><button class="btn bd bs bi" onclick="if(confirm('إلغاء وصول ليلى؟'))toast('تم الإلغاء','warning')"><i class="ti ti-x"></i></button></div></td></tr>
+        </tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="page" id="page-settings">
+      <div class="tabs" id="set-tabs">
+        <button class="tbb active" onclick="stab(this,'st-office','set-tabs')">المكتب</button>
+        <button class="tbb" onclick="stab(this,'st-google','set-tabs')">Google APIs</button>
+        <button class="tbb" onclick="stab(this,'st-notif','set-tabs')">الإشعارات</button>
+        <button class="tbb" onclick="stab(this,'st-users','set-tabs')">المستخدمون</button>
+        <button class="tbb" onclick="stab(this,'st-backup','set-tabs')">النسخ الاحتياطي</button>
+      </div>
+      <!-- Office -->
+      <div class="tp active" id="st-office">
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-building"></i> بيانات المكتب</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">اسم المكتب</label><input class="fc" value="مكتب الحسام محمد للمحاماة والاستشارات القانونية"></div>
+              <div class="fg"><label class="fl">اسم المحامي المسئول</label><input class="fc" value="المحامي حسام محمد"></div>
+              <div class="fg"><label class="fl">رقم الواتساب</label><input class="fc ltr" dir="ltr" value="01016000360"></div>
+              <div class="fg"><label class="fl">البريد الإلكتروني</label><input class="fc ltr" dir="ltr" type="email" value="hossammohamedlawyer@gmail.com"></div>
+              <div class="fg"><label class="fl">العنوان</label><input class="fc" placeholder="عنوان المكتب التفصيلي"></div>
+              <button class="btn bp bbl" onclick="toast('تم حفظ بيانات المكتب ✓','success')"><i class="ti ti-device-floppy"></i> حفظ البيانات</button>
+            </div>
+          </div>
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-palette"></i> المظهر والواجهة</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">اللون الرئيسي</label>
+                <div class="df g8">
+                  <div style="width:30px;height:30px;border-radius:6px;background:#C9A84C;cursor:pointer;border:2px solid var(--navy)" title="ذهبي" onclick="toast('اللون الذهبي مفعّل','success')"></div>
+                  <div style="width:30px;height:30px;border-radius:6px;background:#0D1B2A;cursor:pointer" title="نيفي" onclick="toast('سيتم تطبيق اللون','info')"></div>
+                  <div style="width:30px;height:30px;border-radius:6px;background:#2563EB;cursor:pointer" title="أزرق" onclick="toast('سيتم تطبيق اللون','info')"></div>
+                  <div style="width:30px;height:30px;border-radius:6px;background:#059669;cursor:pointer" title="أخضر" onclick="toast('سيتم تطبيق اللون','info')"></div>
+                </div>
+              </div>
+              <div class="fg"><label class="fl">لغة الواجهة</label><select class="fc"><option>العربية (RTL)</option><option>English (LTR)</option></select></div>
+              <div class="fg"><label class="fl">شعار المكتب (Logo)</label><input type="file" class="fc" accept="image/*" onchange="toast('تم رفع الشعار','success')"></div>
+              <button class="btn bp bbl" onclick="toast('تم حفظ المظهر ✓','success')"><i class="ti ti-device-floppy"></i> حفظ المظهر</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Google -->
+      <div class="tp" id="st-google">
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-database"></i> Google Sheets & Drive</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">Spreadsheet ID الرئيسي</label><input class="fc ltr" dir="ltr" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74..."></div>
+              <div class="fg"><label class="fl">Drive Root Folder ID</label><input class="fc ltr" dir="ltr" placeholder="1BxiMVs0XRA5nFMdKvBd..."></div>
+              <div class="fg"><label class="fl">Apps Script Web App URL</label><input class="fc ltr" dir="ltr" placeholder="https://script.google.com/macros/s/..."></div>
+              <div class="df g8"><button class="btn bp f1" onclick="toast('تم الحفظ ✓','success')"><i class="ti ti-device-floppy"></i> حفظ</button><button class="btn bo f1" onclick="toast('جارٍ اختبار الاتصال...','info');setTimeout(()=>toast('الاتصال يعمل ✓','success'),1500)"><i class="ti ti-plug"></i> اختبار</button></div>
+            </div>
+          </div>
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-calendar"></i> Google Calendar</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">Calendar ID</label><input class="fc ltr" dir="ltr" placeholder="primary"></div>
+              <div class="fg"><label class="fl">تزامن تلقائي</label><select class="fc"><option>مفعّل</option><option>معطّل</option></select></div>
+              <div class="fg"><label class="fl">تفعيل تذكيرات الجلسات</label><select class="fc"><option>مفعّل — ٣٠ يوم قبل الجلسة</option><option>معطّل</option></select></div>
+              <button class="btn bp bbl" onclick="toast('تم حفظ إعدادات التقويم ✓','success')"><i class="ti ti-device-floppy"></i> حفظ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Notif -->
+      <div class="tp" id="st-notif">
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-brand-whatsapp"></i> واتساب بيزنس API</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">رقم الواتساب</label><input class="fc ltr" value="01016000360" dir="ltr"></div>
+              <div class="fg"><label class="fl">API Token</label><input class="fc ltr" type="password" dir="ltr" placeholder="Bearer token..."></div>
+              <div class="fg"><label class="fl">حالة التفعيل</label><select class="fc"><option>مفعّل</option><option>معطّل</option></select></div>
+              <div class="df g8"><button class="btn bp f1" onclick="toast('تم الحفظ ✓','success')"><i class="ti ti-device-floppy"></i> حفظ</button><button class="btn bo f1" onclick="toast('إرسال رسالة اختبار...','info');setTimeout(()=>toast('تم الإرسال بنجاح ✓','success'),1500)"><i class="ti ti-send"></i> اختبار</button></div>
+            </div>
+          </div>
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-mail"></i> Gmail API</div></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">عنوان البريد</label><input class="fc ltr" value="hossammohamedlawyer@gmail.com" dir="ltr" type="email"></div>
+              <div class="fg"><label class="fl">Gmail API Key</label><input class="fc ltr" type="password" dir="ltr" placeholder="AIzaSy..."></div>
+              <div class="fg"><label class="fl">OAuth Client ID</label><input class="fc ltr" dir="ltr" placeholder="xxxx.apps.googleusercontent.com"></div>
+              <button class="btn bp bbl" onclick="toast('تم حفظ إعدادات البريد ✓','success')"><i class="ti ti-device-floppy"></i> حفظ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Users -->
+      <div class="tp" id="st-users">
+        <div class="card"><div class="ch"><div class="ct"><i class="ti ti-users"></i> إدارة المستخدمين</div><button class="btn bp bs" onclick="toast('إضافة مستخدم جديد','info')"><i class="ti ti-plus"></i> مستخدم جديد</button></div>
+        <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>المستخدم</th><th>الدور</th><th>الصلاحيات</th><th>آخر دخول</th><th>الحالة</th><th></th></tr></thead>
+        <tbody><tr>
+          <td><div class="df ac g8"><div class="av">حم</div><div><div class="f6">حسام محمد</div><div class="fx c-m">hossammohamedlawyer@gmail.com</div></div></div></td>
+          <td><span class="badge bsd">مدير النظام</span></td><td><span class="badge bso">كامل</span></td><td class="fx">الآن</td><td><span class="badge bsg">نشط</span></td>
+          <td><button class="btn bo bs bi" onclick="toast('تعديل الصلاحيات','info')"><i class="ti ti-edit"></i></button></td>
+        </tr></tbody></table></div></div></div>
+      </div>
+      <!-- Backup -->
+      <div class="tp" id="st-backup">
+        <div class="g2">
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-database-export"></i> إعدادات النسخ الاحتياطي</div></div>
+            <div class="cb">
+              <div class="fgrid">
+                <div class="fg"><label class="fl">النسخ اليومية</label><select class="fc"><option>مفعّل — ٢:٠٠ ص</option><option>معطّل</option></select></div>
+                <div class="fg"><label class="fl">النسخ الأسبوعية</label><select class="fc"><option>مفعّل — الجمعة</option><option>معطّل</option></select></div>
+                <div class="fg"><label class="fl">النسخ الشهرية</label><select class="fc"><option>مفعّل — أول الشهر</option><option>معطّل</option></select></div>
+                <div class="fg"><label class="fl">مجلد Drive للنسخ</label><input class="fc ltr" dir="ltr" placeholder="Drive Folder ID"></div>
+              </div>
+              <div class="df g8" style="margin-top:8px">
+                <button class="btn bp f1" onclick="toast('جارٍ إنشاء النسخة...','info');setTimeout(()=>toast('تم حفظ النسخة على Drive ✓','success'),2000)"><i class="ti ti-database-export"></i> نسخ الآن</button>
+                <button class="btn bo f1" onclick="toast('اختيار نسخة للاستعادة','info')"><i class="ti ti-database-import"></i> استعادة</button>
+                <button class="btn bd f1" onclick="showConfirm('إعادة ضبط جميع البيانات إلى الإعدادات الافتراضية؟',()=>{if(!IS_GAS){localStorage.removeItem('hossam_data_dev');}location.reload();},'إعادة الضبط')"><i class="ti ti-refresh"></i> إعادة ضبط</button>
+              </div>
+            </div>
+          </div>
+          <div class="card"><div class="ch"><div class="ct"><i class="ti ti-history"></i> سجل النسخ</div></div>
+            <div class="cbf"><div class="tw"><table class="dt"><thead><tr><th>التاريخ</th><th>النوع</th><th>الحجم</th><th>الحالة</th></tr></thead>
+            <tbody>
+              <tr><td class="fx">٤ يونيو ٢٠٢٦ — ٢:٠٠ ص</td><td><span class="badge bso">يومي</span></td><td class="fx">٤.٢ MB</td><td><span class="badge bsg">✓</span></td></tr>
+              <tr><td class="fx">٣ يونيو ٢٠٢٦ — ٢:٠٠ ص</td><td><span class="badge bso">يومي</span></td><td class="fx">٤.١ MB</td><td><span class="badge bsg">✓</span></td></tr>
+              <tr><td class="fx">٣١ مايو ٢٠٢٦</td><td><span class="badge bsi">شهري</span></td><td class="fx">١٨.٧ MB</td><td><span class="badge bsg">✓</span></td></tr>
+            </tbody></table></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ══════════════ MODALS ══════════════ -->
+
+<!-- New Client -->
+<div class="mo" id="m-nclient" onclick="if(event.target===this)closeM('m-nclient')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-user-plus"></i> إضافة موكل جديد</div><button class="ib" onclick="closeM('m-nclient')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="tabs" id="nc-tabs">
+        <button class="tbb active" onclick="stab(this,'nc-ind','nc-tabs')">موكل فرد</button>
+        <button class="tbb" onclick="stab(this,'nc-corp','nc-tabs')">شركة</button>
+      </div>
+      <div class="tp active" id="nc-ind">
+        <div class="fgrid">
+          <div class="fg"><label class="fl">الاسم الكامل <span class="req">*</span></label><input id="nc-name" class="fc" placeholder="الاسم الرباعي"></div>
+          <div class="fg"><label class="fl">الرقم القومي</label><input class="fc ltr" dir="ltr" placeholder="١٤ رقم" maxlength="14"></div>
+          <div class="fg"><label class="fl">رقم الهاتف <span class="req">*</span></label><input id="nc-phone" class="fc ltr" dir="ltr" placeholder="01x-xxxx-xxxx"></div>
+          <div class="fg"><label class="fl">البريد الإلكتروني</label><input id="nc-email" class="fc ltr" dir="ltr" type="email" placeholder="email@domain.com"></div>
+          <div class="fg"><label class="fl">المهنة</label><input class="fc" placeholder="مهنة الموكل"></div>
+          <div class="fg"><label class="fl">جهة العمل</label><input class="fc" placeholder="اسم الشركة / المنظمة"></div>
+        </div>
+        <div class="fg"><label class="fl">العنوان</label><input class="fc" placeholder="المحافظة — المدينة — الشارع — الرقم"></div>
+        <div class="fg"><label class="fl">ملاحظات</label><textarea class="fc" rows="2" placeholder="ملاحظات إضافية..."></textarea></div>
+        <input type="hidden" id="nc-type" value="individual">
+      </div>
+      <div class="tp" id="nc-corp">
+        <div class="fgrid">
+          <div class="fg"><label class="fl">اسم الشركة <span class="req">*</span></label><input class="fc" placeholder="الاسم الكامل للشركة"></div>
+          <div class="fg"><label class="fl">السجل التجاري</label><input class="fc ltr" dir="ltr" placeholder="رقم السجل"></div>
+          <div class="fg"><label class="fl">الرقم الضريبي</label><input class="fc ltr" dir="ltr" placeholder="الرقم الضريبي"></div>
+          <div class="fg"><label class="fl">الرقم الموحد</label><input class="fc ltr" dir="ltr" placeholder="الرقم الموحد"></div>
+          <div class="fg"><label class="fl">اسم المفوض بالتوقيع</label><input class="fc" placeholder="الاسم الكامل"></div>
+          <div class="fg"><label class="fl">هاتف المفوض</label><input class="fc ltr" dir="ltr" placeholder="01x-xxxx-xxxx"></div>
+        </div>
+        <div class="fg"><label class="fl">العنوان المُسجَّل</label><input class="fc" placeholder="العنوان القانوني للشركة"></div>
+      </div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-nclient')">إلغاء</button><button class="btn bp" onclick="saveClient()"><i class="ti ti-check"></i> حفظ الموكل</button></div>
+  </div>
+</div>
+
+<!-- New Case -->
+<div class="mo" id="m-ncase" onclick="if(event.target===this)closeM('m-ncase')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-briefcase"></i> إضافة قضية جديدة</div><button class="ib" onclick="closeM('m-ncase')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="fgrid">
+        <div class="fg"><label class="fl">رقم القضية <span class="req">*</span></label><input id="nc2-num" class="fc ltr" dir="ltr" placeholder="مثال: 456"></div>
+        <div class="fg"><label class="fl">السنة</label><input id="nc2-year" class="fc ltr" dir="ltr" value="2026" type="number"></div>
+        <div class="fg"><label class="fl">المحكمة <span class="req">*</span></label>
+          <select id="nc2-court" class="fc"><option value="">-- اختر --</option><option>محكمة الجيزة الابتدائية</option><option>محكمة القاهرة الابتدائية</option><option>محكمة الاستئناف</option><option>محكمة النقض</option><option>المحكمة الدستورية العليا</option><option>محكمة الأسرة</option><option>محكمة القاهرة التجارية</option><option>محكمة الأحوال الشخصية</option></select>
+        </div>
+        <div class="fg"><label class="fl">الدائرة</label><input id="nc2-circ" class="fc" placeholder="رقم الدائرة"></div>
+        <div class="fg"><label class="fl">درجة التقاضي</label>
+          <select id="nc2-deg" class="fc"><option>ابتدائي</option><option>استئناف</option><option>نقض</option><option>دستورية</option></select>
+        </div>
+        <div class="fg"><label class="fl">نوع القضية</label>
+          <select id="nc2-type" class="fc"><option>جنائي</option><option>مدني</option><option>تجاري</option><option>أسرة</option><option>عمالي</option><option>إداري</option></select>
+        </div>
+        <div class="fg"><label class="fl">الموكل <span class="req">*</span></label>
+          <select id="nc2-client" class="fc"><option value="">-- اختر الموكل --</option><option>مصطفى أحمد السيد</option><option>شركة النيل للتجارة</option><option>ليلى حسين عبدالله</option><option>عمر سعيد محمود</option><option>مجموعة العرب للاستثمار</option><option>فاطمة محمد علي</option></select>
+        </div>
+        <div class="fg"><label class="fl">الجلسة الأولى</label><input id="nc2-sess" class="fc ltr" dir="ltr" type="date"></div>
+      </div>
+      <div class="fg"><label class="fl">وصف القضية</label><textarea id="nc2-desc" class="fc" rows="3" placeholder="ملخص وقائع ووصف القضية..."></textarea></div>
+      <div class="al al-i"><i class="ti ti-robot"></i><div>سيتم إنشاء حدث تلقائي في Google Calendar وإرسال تذكيرات واتساب وبريد إلكتروني عند تسجيل الجلسات.</div></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-ncase')">إلغاء</button><button class="btn bp" onclick="saveCase()"><i class="ti ti-check"></i> إنشاء القضية</button></div>
+  </div>
+</div>
+
+<!-- New Session -->
+<div class="mo" id="m-nsess" onclick="if(event.target===this)closeM('m-nsess')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-calendar-plus"></i> تسجيل جلسة جديدة</div><button class="ib" onclick="closeM('m-nsess')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="fgrid">
+        <div class="fg"><label class="fl">القضية <span class="req">*</span></label>
+          <select id="ns-case" class="fc"><option value="">-- اختر القضية --</option><option>١٢٣/٢٠٢٦ — مصطفى أحمد</option><option>٨٩/٢٠٢٦ — شركة النيل</option><option>٢٠١/٢٠٢٥ — ليلى حسين</option><option>٣٤٥/٢٠٢٦ — عمر سعيد</option><option>٦٧/٢٠٢٤ — مجموعة العرب</option></select>
+        </div>
+        <div class="fg"><label class="fl">تاريخ الجلسة <span class="req">*</span></label><input id="ns-date" class="fc ltr" dir="ltr" type="date"></div>
+        <div class="fg"><label class="fl">الساعة</label><input id="ns-time" class="fc ltr" dir="ltr" type="time" value="09:00"></div>
+        <div class="fg"><label class="fl">المحكمة / القاعة</label><input id="ns-court" class="fc" placeholder="اسم المحكمة أو رقم القاعة"></div>
+      </div>
+      <div class="fg"><label class="fl">ملاحظات</label><textarea id="ns-notes" class="fc" rows="2" placeholder="أي ملاحظات على الجلسة..."></textarea></div>
+      <div class="al al-s"><i class="ti ti-bell"></i><div>سيتم إرسال تذكيرات تلقائية عبر واتساب (01016000360) والبريد الإلكتروني قبل: <strong>٣٠ يوم — ١٤ يوم — ٧ أيام — ٣ أيام — يوم — ساعة</strong></div></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-nsess')">إلغاء</button><button class="btn bp" onclick="saveSess()"><i class="ti ti-check"></i> تسجيل الجلسة</button></div>
+  </div>
+</div>
+
+<!-- New Invoice -->
+<div class="mo" id="m-ninv" onclick="if(event.target===this)closeM('m-ninv')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-receipt"></i> إنشاء فاتورة جديدة</div><button class="ib" onclick="closeM('m-ninv')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="fgrid">
+        <div class="fg"><label class="fl">الموكل <span class="req">*</span></label>
+          <select id="ni-client" class="fc"><option value="">-- اختر --</option><option>مصطفى أحمد السيد</option><option>شركة النيل للتجارة</option><option>ليلى حسين عبدالله</option><option>عمر سعيد محمود</option><option>مجموعة العرب للاستثمار</option></select>
+        </div>
+        <div class="fg"><label class="fl">القضية</label>
+          <select id="ni-case" class="fc"><option value="">-- اختر --</option><option>١٢٣/٢٠٢٦</option><option>٨٩/٢٠٢٦</option><option>٢٠١/٢٠٢٥</option><option>٣٤٥/٢٠٢٦</option></select>
+        </div>
+        <div class="fg"><label class="fl">نوع الخدمة</label>
+          <select id="ni-type" class="fc"><option>أتعاب محاماة</option><option>استشارة قانونية</option><option>رسوم قضائية</option><option>رسوم حكومية</option><option>مصروفات متنوعة</option></select>
+        </div>
+        <div class="fg"><label class="fl">المبلغ (ج.م) <span class="req">*</span></label><input id="ni-amount" class="fc ltr" dir="ltr" type="number" placeholder="0.00" min="0"></div>
+        <div class="fg"><label class="fl">تاريخ الاستحقاق</label><input id="ni-due" class="fc ltr" dir="ltr" type="date"></div>
+        <div class="fg"><label class="fl">طريقة الدفع</label>
+          <select id="ni-payment" class="fc"><option>نقداً</option><option>تحويل بنكي</option><option>فودافون كاش</option><option>انستا باي</option><option>شيك مصرفي</option></select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">بيان الفاتورة</label><textarea id="ni-desc" class="fc" rows="2" placeholder="وصف الخدمة المقدمة..."></textarea></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-ninv')">إلغاء</button><button class="btn bp" onclick="saveInv()"><i class="ti ti-send"></i> إنشاء وإرسال</button></div>
+  </div>
+</div>
+
+<!-- New Task -->
+<div class="mo" id="m-ntask" onclick="if(event.target===this)closeM('m-ntask')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-clipboard-plus"></i> مهمة إدارية جديدة</div><button class="ib" onclick="closeM('m-ntask')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">وصف المهمة <span class="req">*</span></label><input id="nt-title" class="fc" placeholder="وصف واضح للمهمة المطلوبة"></div>
+      <div class="fgrid">
+        <div class="fg"><label class="fl">نوع المهمة</label>
+          <select id="nt-type" class="fc"><option>شهادة</option><option>صورة رسمية</option><option>طلب قضائي</option><option>طلب حكومي</option><option>بحث قانوني</option><option>إعلان محضر</option><option>مذكرة</option></select>
+        </div>
+        <div class="fg"><label class="fl">القضية المرتبطة</label>
+          <select id="nt-case" class="fc"><option value="">-- اختر --</option><option>١٢٣/٢٠٢٦</option><option>٨٩/٢٠٢٦</option><option>٢٠١/٢٠٢٥</option><option>٣٤٥/٢٠٢٦</option><option>٦٧/٢٠٢٤</option></select>
+        </div>
+        <div class="fg"><label class="fl">الأولوية</label>
+          <select id="nt-pri" class="fc"><option value="normal">عادية</option><option value="urgent">عاجلة</option><option value="critical">حرجة جداً</option></select>
+        </div>
+        <div class="fg"><label class="fl">الموعد النهائي</label><input id="nt-due" class="fc ltr" dir="ltr" type="date"></div>
+      </div>
+      <div class="fg"><label class="fl">ملاحظات</label><textarea class="fc" rows="2" placeholder="تفاصيل إضافية..."></textarea></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-ntask')">إلغاء</button><button class="btn bp" onclick="saveTask()"><i class="ti ti-check"></i> إنشاء المهمة</button></div>
+  </div>
+</div>
+
+<!-- New Opponent -->
+<div class="mo" id="m-nopp" onclick="if(event.target===this)closeM('m-nopp')">
+  <div class="modal">
+    <div class="mh"><div class="mt"><i class="ti ti-user-x"></i> إضافة خصم جديد</div><button class="ib" onclick="closeM('m-nopp')"><i class="ti ti-x"></i></button></div>
+    <div class="mb">
+      <div class="fgrid">
+        <div class="fg"><label class="fl">اسم الخصم <span class="req">*</span></label><input id="no-name" class="fc" placeholder="الاسم الكامل"></div>
+        <div class="fg"><label class="fl">القضية المرتبطة</label><select id="no-case" class="fc"><option value="">-- اختر --</option></select></div>
+        <div class="fg"><label class="fl">اسم محامي الخصم</label><input id="no-lawyer" class="fc" placeholder="اسم المحامي"></div>
+        <div class="fg"><label class="fl">هاتف محامي الخصم</label><input id="no-phone" class="fc ltr" dir="ltr" placeholder="01x-xxxx-xxxx"></div>
+      </div>
+      <div class="fg"><label class="fl">ملاحظات</label><textarea id="no-notes" class="fc" rows="2" placeholder="ملاحظات..."></textarea></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeM('m-nopp')">إلغاء</button><button class="btn bp" onclick="saveOpp()"><i class="ti ti-check"></i> إضافة</button></div>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="mo" id="m-notif" onclick="if(event.target===this)closeM('m-notif')">
+  <div class="modal" style="width:420px">
+    <div class="mh"><div class="mt"><i class="ti ti-bell"></i> الإشعارات <span class="badge bsd" style="font-size:10px">2 جديد</span></div><button class="ib" onclick="closeM('m-notif')"><i class="ti ti-x"></i></button></div>
+    <div style="max-height:400px;overflow-y:auto">
+      <div class="ni2 unread"><div class="ni2-ic" style="background:var(--red-bg)"><i class="ti ti-calendar-x" style="color:var(--red)"></i></div><div class="ni2-b"><div class="ni2-t f6">جلسة مصطفى أحمد غداً ١٠:٠٠ ص</div><div class="ni2-s">الجيزة الابتدائية — منذ ساعة</div></div><div class="ni2-d"></div></div>
+      <div class="ni2 unread"><div class="ni2-ic" style="background:var(--red-bg)"><i class="ti ti-receipt" style="color:var(--red)"></i></div><div class="ni2-b"><div class="ni2-t f6">فاتورة شركة النيل متأخرة</div><div class="ni2-s">12,000 ج.م — منذ يومين</div></div><div class="ni2-d"></div></div>
+      <div class="ni2"><div class="ni2-ic" style="background:var(--blue-bg)"><i class="ti ti-file-upload" style="color:var(--blue)"></i></div><div class="ni2-b"><div class="ni2-t">مستند جديد — قضية ليلى حسين</div><div class="ni2-s">مذكرة دفاع — منذ ٣ أيام</div></div></div>
+      <div class="ni2"><div class="ni2-ic" style="background:var(--green-bg)"><i class="ti ti-check" style="color:var(--green)"></i></div><div class="ni2-b"><div class="ni2-t">تم تحصيل فاتورة ليلى حسين</div><div class="ni2-s">2,500 ج.م — منذ ٤ أيام</div></div></div>
+      <div class="ni2"><div class="ni2-ic" style="background:var(--gold-bg)"><i class="ti ti-user-plus" style="color:var(--gold-d)"></i></div><div class="ni2-b"><div class="ni2-t">موكل جديد: فاطمة محمد علي</div><div class="ni2-s">منذ أسبوع</div></div></div>
+    </div>
+    <div class="mf"><button class="btn bo bbl" onclick="closeM('m-notif');toast('تم تحديد الكل كمقروء ✓','success')">تحديد الكل كمقروء</button></div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="confirm-mo" id="m-confirm">
+  <div class="confirm-box">
+    <div class="confirm-icon">⚠️</div>
+    <div class="confirm-msg" id="confirm-msg">هل أنت متأكد؟</div>
+    <div class="confirm-sub">لا يمكن التراجع عن هذا الإجراء</div>
+    <div class="confirm-btns">
+      <button class="btn bo" onclick="closeConfirm(false)">إلغاء</button>
+      <button class="btn bd" id="confirm-ok" onclick="closeConfirm(true)"><i class="ti ti-trash"></i> تأكيد الحذف</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  برنامج الحسام — JavaScript الكامل
+//  المحامي: حسام محمد | 01016000360
+//  hossammohamedlawyer@gmail.com
+// ══════════════════════════════════════════════
+
+// ── DATA — البيانات الافتراضية (تُستبدل ببيانات Google Drive عند التشغيل) ──
+const DEFAULT_DATA = {
+  clients:[
+    {id:1,name:'مصطفى أحمد السيد',type:'individual',phone:'0100-000-0001',email:'mostafa@example.com',cases:3,status:'active',date:'2026-01-10',ini:'مأ',col:''},
+    {id:2,name:'شركة النيل للتجارة والتوزيع',type:'corporate',phone:'0102-000-0002',email:'nile@company.com',cases:2,status:'active',date:'2026-03-05',ini:'شن',col:'av-b'},
+    {id:3,name:'ليلى حسين عبدالله',type:'individual',phone:'0103-000-0003',email:'layla@example.com',cases:1,status:'pending',date:'2026-04-20',ini:'له',col:'av-p'},
+    {id:4,name:'عمر سعيد محمود',type:'individual',phone:'0104-000-0004',email:'omar@example.com',cases:2,status:'active',date:'2026-02-01',ini:'عس',col:'av-g'},
+    {id:5,name:'مجموعة العرب للاستثمار',type:'corporate',phone:'0105-000-0005',email:'arab@group.com',cases:4,status:'active',date:'2025-01-15',ini:'مع',col:'av-r'},
+    {id:6,name:'فاطمة محمد علي',type:'individual',phone:'0106-000-0006',email:'fatima@example.com',cases:1,status:'active',date:'2026-05-10',ini:'فم',col:''},
+    {id:7,name:'شركة الأهرام العقارية',type:'corporate',phone:'0107-000-0007',email:'ahram@realty.com',cases:3,status:'active',date:'2025-06-20',ini:'شأ',col:'av-b'},
+  ],
+  cases:[
+    {id:1,num:'١٢٣/٢٠٢٦',client:'مصطفى أحمد',court:'محكمة الجيزة الابتدائية',circ:'الجنائية ٥',type:'جنائي',deg:'ابتدائي',sess:'2026-06-05',status:'pending'},
+    {id:2,num:'٨٩/٢٠٢٦',client:'شركة النيل',court:'محكمة القاهرة التجارية',circ:'التجارية ٢',type:'تجاري',deg:'ابتدائي',sess:'2026-06-08',status:'active'},
+    {id:3,num:'٢٠١/٢٠٢٥',client:'ليلى حسين',court:'محكمة الأسرة',circ:'الأولى',type:'أسرة',deg:'استئناف',sess:'2026-06-12',status:'active'},
+    {id:4,num:'٣٤٥/٢٠٢٦',client:'عمر سعيد',court:'محكمة الاستئناف',circ:'الدائرة ١٢',type:'مدني',deg:'استئناف',sess:'2026-06-15',status:'active'},
+    {id:5,num:'٦٧/٢٠٢٤',client:'مجموعة العرب',court:'محكمة النقض',circ:'التجارية',type:'تجاري',deg:'نقض',sess:'2026-06-20',status:'pending'},
+    {id:6,num:'٤٥٦/٢٠٢٦',client:'فاطمة محمد',court:'محكمة الأحوال الشخصية',circ:'الثانية',type:'أسرة',deg:'ابتدائي',sess:'2026-06-25',status:'active'},
+  ],
+  sessions:[
+    {id:1,cnum:'١٢٣/٢٠٢٦',client:'مصطفى أحمد',court:'الجيزة الابتدائية',date:'2026-06-05',time:'10:00',dec:'',next:'',status:'upcoming'},
+    {id:2,cnum:'٨٩/٢٠٢٦',client:'شركة النيل',court:'القاهرة التجارية',date:'2026-06-08',time:'11:30',dec:'',next:'',status:'upcoming'},
+    {id:3,cnum:'٢٠١/٢٠٢٥',client:'ليلى حسين',court:'محكمة الأسرة',date:'2026-06-12',time:'09:00',dec:'',next:'',status:'upcoming'},
+    {id:4,cnum:'٨٩/٢٠٢٦',client:'شركة النيل',court:'القاهرة التجارية',date:'2026-05-15',time:'11:00',dec:'تأجيل',next:'٨ يونيو',status:'past'},
+    {id:5,cnum:'١٢٣/٢٠٢٦',client:'مصطفى أحمد',court:'الجيزة',date:'2026-05-20',time:'10:00',dec:'إحالة',next:'٥ يونيو',status:'past'},
+  ],
+  invoices:[
+    {id:1,num:'INV-2026-048',client:'مصطفى أحمد',cas:'١٢٣/٢٠٢٦',type:'أتعاب محاماة',amount:5000,due:'2026-06-15',status:'pending',payment:'نقداً'},
+    {id:2,num:'INV-2026-047',client:'شركة النيل',cas:'٨٩/٢٠٢٦',type:'استشارة قانونية',amount:12000,due:'2026-06-01',status:'overdue',payment:'تحويل بنكي'},
+    {id:3,num:'INV-2026-046',client:'ليلى حسين',cas:'٢٠١/٢٠٢٥',type:'رسوم قضائية',amount:2500,due:'2026-05-30',status:'paid',payment:'نقداً'},
+    {id:4,num:'INV-2026-045',client:'مجموعة العرب',cas:'٦٧/٢٠٢٤',type:'أتعاب نقض',amount:25000,due:'2026-05-20',status:'paid',payment:'تحويل بنكي'},
+    {id:5,num:'INV-2026-044',client:'عمر سعيد',cas:'٣٤٥/٢٠٢٦',type:'أتعاب محاماة',amount:8000,due:'2026-06-20',status:'pending',payment:'نقداً'},
+  ],
+  tasks:[
+    {id:1,title:'استخراج شهادة عدم المحكومية',cas:'١٢٣/٢٠٢٦',type:'شهادة',pri:'urgent',due:'2026-06-06',status:'inprogress'},
+    {id:2,title:'تقديم طلب إلى النيابة العامة',cas:'٢٠١/٢٠٢٥',type:'طلب',pri:'normal',due:'2026-06-10',status:'pending'},
+    {id:3,title:'صورة رسمية من حكم المحكمة',cas:'٨٩/٢٠٢٦',type:'صورة رسمية',pri:'urgent',due:'2026-06-07',status:'inprogress'},
+    {id:4,title:'بحث قانوني في قضايا الاستثمار',cas:'٦٧/٢٠٢٤',type:'بحث',pri:'normal',due:'2026-06-15',status:'pending'},
+    {id:5,title:'تقديم مذكرة دفاع',cas:'٣٤٥/٢٠٢٦',type:'مذكرة',pri:'urgent',due:'2026-06-14',status:'inprogress'},
+  ]
+};
+
+// ══════════════════════════════════════════════════════════════
+//  APPS SCRIPT INTEGRATION — استبدال LocalStorage بـ Google Drive
+// ══════════════════════════════════════════════════════════════
+
+// كائن البيانات المحلي (يُملأ من Apps Script عند التحميل)
+const D = JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+// متغير للتحقق من وجود بيئة Apps Script
+const IS_GAS = (typeof google !== 'undefined' && google.script && google.script.run);
+
+// ── مؤشر التحميل ──
+function showLoading(show) {
+  let ov = document.getElementById('gas-loading');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'gas-loading';
+    Object.assign(ov.style, {
+      position:'fixed', inset:'0', background:'rgba(13,27,42,.45)',
+      zIndex:'9998', display:'flex', alignItems:'center', justifyContent:'center',
+      backdropFilter:'blur(2px)', transition:'opacity .2s'
+    });
+    ov.innerHTML = '<div style="background:#fff;border-radius:14px;padding:28px 36px;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:0 8px 40px rgba(0,0,0,.18)"><div style="width:42px;height:42px;border:4px solid var(--cream2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite"></div><span style="font-size:14px;font-weight:600;color:var(--navy)">جارٍ الحفظ…</span></div>';
+    document.body.appendChild(ov);
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(style);
+  }
+  ov.style.display = show ? 'flex' : 'none';
+}
+
+// ── معالج الخطأ العام من Apps Script ──
+function gasError(context) {
+  return function(err) {
+    showLoading(false);
+    console.error('❌ ' + context + ':', err);
+    toast('خطأ في الاتصال بالخادم — ' + context, 'danger');
+  };
+}
+
+// ── تحميل البيانات عند بدء التشغيل ──
+function loadDataFromServer() {
+  if (!IS_GAS) {
+    // وضع التطوير — استخدم البيانات الافتراضية
+    console.warn('⚠️ بيئة Apps Script غير متوفرة — يعمل بالبيانات الافتراضية');
+    finishInit();
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function(res) {
+      if (res && res.ok) {
+        if (res.clients)   { D.clients   = res.clients;   }
+        if (res.cases)     { D.cases     = res.cases;     }
+        if (res.sessions)  { D.sessions  = res.sessions;  }
+        if (res.invoices)  { D.invoices  = res.invoices;  }
+        if (res.tasks)     { D.tasks     = res.tasks;     }
+        if (res.opponents) { D.opponents = res.opponents; }
+        console.log('✅ تم تحميل البيانات من Google Drive');
+      } else {
+        console.warn('⚠️ clientInit أعاد خطأ — استخدام البيانات الافتراضية:', res && res.error);
+        toast('تنبيه: يعمل بالبيانات التجريبية — ' + (res && res.error || ''), 'warning');
+      }
+      finishInit();
+    })
+    .withFailureHandler(function(err) {
+      console.error('❌ فشل تحميل البيانات:', err);
+      toast('تعذّر الاتصال بالخادم — يعمل بالبيانات التجريبية', 'warning');
+      finishInit();
+    })
+    .clientInit();
+}
+
+// ── إتمام تهيئة الواجهة بعد تحميل البيانات ──
+function finishInit() {
+  go('dashboard');
+  updateSidebarBadges();
+}
+
+// ── saveData: لم يعد يُستخدم مباشرة، أُبقي للتوافق في وضع التطوير ──
+function saveData() {
+  // لا شيء هنا — كل عملية حفظ تذهب مباشرة لـ Apps Script عبر دوال api*
+  // في وضع التطوير (بدون Apps Script) نحفظ في localStorage فقط
+  if (!IS_GAS) {
+    try { localStorage.setItem('hossam_data_dev', JSON.stringify(D)); } catch(e) {}
+  }
+}
+
+// ── PAGE INFO ──
+const PI = {
+  dashboard: {t:'لوحة التحكم',s:'نظرة عامة شاملة على المكتب'},
+  clients:   {t:'الموكلون',s:'إدارة بيانات وملفات الموكلين'},
+  cases:     {t:'القضايا',s:'إدارة ومتابعة جميع القضايا'},
+  sessions:  {t:'الجلسات',s:'جدول الجلسات والمواعيد القضائية'},
+  opponents: {t:'الخصوم',s:'سجل الخصوم ومحاميهم'},
+  tasks:     {t:'المهام الإدارية',s:'الأعمال الإدارية وأعمال المحضرين'},
+  bailiff:   {t:'أعمال المحضرين',s:'إدارة الإعلانات والتنفيذ'},
+  documents: {t:'المستندات',s:'إدارة وأرشفة الملفات والمستندات'},
+  calendar:  {t:'التقويم',s:'تقويم المكتب والمواعيد'},
+  invoices:  {t:'الفواتير والمدفوعات',s:'إدارة الفواتير وتتبع المدفوعات'},
+  accounting:{t:'المحاسبة المالية',s:'الإيرادات والمصروفات والتقارير'},
+  templates: {t:'النماذج القانونية',s:'مكتبة النماذج والعقود الجاهزة'},
+  library:   {t:'المكتبة القانونية',s:'القوانين والأحكام والمراجع'},
+  resources: {t:'الموارد القانونية',s:'روابط ومصادر قانونية مفيدة'},
+  reports:   {t:'التقارير',s:'تقارير شاملة عن أداء المكتب'},
+  portal:    {t:'بوابة الموكلين',s:'إدارة وصول الموكلين الإلكتروني'},
+  settings:  {t:'الإعدادات',s:'إعدادات النظام والتكاملات'},
+};
+
+// ── NAVIGATE ──
+function go(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  if (pg) pg.classList.add('active');
+  const ni = document.querySelector('.ni[data-page="'+id+'"]');
+  if (ni) ni.classList.add('active');
+  const p = PI[id]||{t:id,s:''};
+  document.getElementById('pg-title').textContent = p.t;
+  document.getElementById('pg-sub').textContent = p.s;
+  document.getElementById('sidebar').classList.remove('mob');
+  // init page
+  if(id==='dashboard') initDash();
+  if(id==='clients') renderClients();
+  if(id==='cases') renderCases();
+  if(id==='sessions'){renderSessions();buildCal('cal1');}
+  if(id==='invoices') renderInvoices();
+  if(id==='opponents') renderOpponents();
+  if(id==='tasks') renderTasks();
+  if(id==='reports') initReports();
+  if(id==='accounting') initAccounting();
+  if(id==='calendar') buildCal('cal2');
+}
+
+// ── SIDEBAR ──
+function toggleSB() {
+  const sb = document.getElementById('sidebar');
+  if (window.innerWidth<=768) sb.classList.toggle('mob');
+  else {
+    sb.classList.toggle('collapsed');
+    document.querySelector('.main').style.marginRight = sb.classList.contains('collapsed')?'68px':'var(--sw)';
+  }
+}
+
+// ── MODAL ──
+function openM(id){
+  // تحديث القوائم المنسدلة ديناميكياً قبل فتح النماذج
+  if(id==='m-ncase'||id==='m-ninv') refreshClientDropdowns();
+  if(id==='m-nsess'||id==='m-ntask') refreshCaseDropdowns();
+  const m=document.getElementById(id);
+  if(m){m.classList.add('open');document.body.style.overflow='hidden';}
+}
+function closeM(id){const m=document.getElementById(id);if(m){m.classList.remove('open');document.body.style.overflow='';}}
+
+// ── CONFIRM MODAL (بديل عن confirm() المدمج) ──
+let _confirmCb=null;
+function showConfirm(msg, cb, okLabel='تأكيد الحذف'){
+  const m=document.getElementById('m-confirm');
+  const msgEl=document.getElementById('confirm-msg');
+  const okBtn=document.getElementById('confirm-ok');
+  if(msgEl) msgEl.textContent=msg;
+  if(okBtn) okBtn.innerHTML=`<i class="ti ti-trash"></i> ${okLabel}`;
+  _confirmCb=cb;
+  if(m){m.classList.add('open');document.body.style.overflow='hidden';}
+}
+function closeConfirm(ok){
+  const m=document.getElementById('m-confirm');
+  if(m){m.classList.remove('open');document.body.style.overflow='';}
+  if(ok&&_confirmCb) _confirmCb();
+  _confirmCb=null;
+}
+function stab(btn, paneId, tabsId) {
+  const tabsEl = document.getElementById(tabsId);
+  if(tabsEl) tabsEl.querySelectorAll('.tbb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // find closest container
+  const cont = btn.closest('.page')||btn.closest('.modal')||btn.closest('.card')||document.body;
+  cont.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+  const pane = document.getElementById(paneId);
+  if(pane) pane.classList.add('active');
+}
+
+// ── TOAST ──
+function toast(msg,type='success'){
+  const colors={success:'#059669',danger:'#DC2626',warning:'#D97706',info:'#2563EB'};
+  const icons={success:'ti-check-circle',danger:'ti-x-circle',warning:'ti-alert-triangle',info:'ti-info-circle'};
+  const t=document.createElement('div');
+  t.innerHTML=`<i class="ti ${icons[type]||'ti-check-circle'}" style="font-size:18px"></i><span>${msg}</span>`;
+  Object.assign(t.style,{position:'fixed',bottom:'24px',left:'24px',zIndex:'9999',background:colors[type]||colors.success,color:'#fff',padding:'12px 18px',borderRadius:'10px',display:'flex',alignItems:'center',gap:'8px',fontSize:'13px',fontWeight:'600',fontFamily:'var(--f)',boxShadow:'0 4px 20px rgba(0,0,0,.2)',transition:'opacity .3s',opacity:'1'});
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},3000);
+}
+
+// ── XSS PROTECTION ──
+function esc(str){
+  if(str===null||str===undefined) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+// ── HELPERS ──
+function fdate(d){
+  if(!d) return '—';
+  try{
+    // تجنب مشكلة UTC timezone بقراءة الأجزاء مباشرة
+    const ms=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const parts=d.split('-');
+    if(parts.length===3){return `${parseInt(parts[2])} ${ms[parseInt(parts[1])-1]} ${parts[0]}`;}
+    const dt=new Date(d);return `${dt.getDate()} ${ms[dt.getMonth()]} ${dt.getFullYear()}`;
+  }catch{return d;}
+}
+function isurg(d){if(!d) return false;const diff=(new Date(d)-new Date())/86400000;return diff>=0&&diff<=3;}
+function sbadge(s){return {active:'bsg',pending:'bsw',inactive:'bsm',closed:'bsm'}[s]||'bsm';}
+function slabel(s){return {active:'نشط',pending:'قيد النظر',inactive:'غير نشط',closed:'مغلق'}[s]||s;}
+function ctbadge(t){return {جنائي:'bsd',مدني:'bsw',تجاري:'bsi',أسرة:'bsp',إداري:'bsn'}[t]||'bsm';}
+function degbadge(d){return {ابتدائي:'bso',استئناف:'bsi',نقض:'bsd'}[d]||'bsm';}
+function invbadge(s){return {paid:'bsg',pending:'bsw',overdue:'bsd'}[s]||'bsm';}
+function invlabel(s){return {paid:'مدفوعة',pending:'معلقة',overdue:'متأخرة'}[s]||s;}
+function tskbadge(s){return {done:'bsg',inprogress:'bsw',pending:'bsm'}[s]||'bsm';}
+function tsklabel(s){return {done:'مكتملة',inprogress:'جارية',pending:'معلقة'}[s]||s;}
+
+// ── DASHBOARD ──
+function initDash(){
+  // KPIs الحقيقية من البيانات
+  const totalCases=D.cases.length;
+  const totalClients=D.clients.length;
+  const upcomingSess=D.sessions.filter(s=>s.status==='upcoming').length;
+  const totalRev=D.invoices.reduce((s,i)=>s+i.amount,0);
+  const el=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  el('kpi-dash-cases',totalCases);
+  el('kpi-dash-clients',totalClients);
+  el('kpi-dash-sess',upcomingSess);
+  el('kpi-dash-rev',(totalRev/1000).toFixed(0)+'k');
+  // مؤشرات الأداء
+  const activeCases=D.cases.filter(c=>c.status==='active').length;
+  const pendingCases=D.cases.filter(c=>c.status==='pending').length;
+  const closedCases=D.cases.filter(c=>c.status==='closed').length;
+  el('kpi-active',activeCases);el('kpi-pending',pendingCases);el('kpi-closed',closedCases);
+  // paid invoices %
+  const paidAmt=D.invoices.filter(i=>i.status==='paid').reduce((s,i)=>s+i.amount,0);
+  const collRate=totalRev>0?Math.round((paidAmt/totalRev)*100):0;
+  const collEl=document.getElementById('kpi-coll-rate');
+  if(collEl){collEl.textContent=collRate+'%';const pb=document.getElementById('kpi-coll-bar');if(pb)pb.style.width=collRate+'%';}
+  updateSidebarBadges();
+  buildBarChart('rev-chart',[42,55,61,70,78,85],['يناير','فبراير','مارس','أبريل','مايو','يونيو'],'');
+}
+
+function buildBarChart(id,vals,labels,cls){
+  const w=document.getElementById(id);
+  if(!w||w.dataset.built) return;
+  w.dataset.built='1';
+  const max=Math.max(...vals);
+  vals.forEach((v,i)=>{
+    const item=document.createElement('div');
+    item.className='bi2';
+    item.innerHTML=`<span class="bv">${v}k</span><div class="bf ${cls}" style="height:${Math.round((v/max)*90)}px" title="${labels[i]}: ${v}k"></div><span class="blb">${labels[i].slice(0,3)}</span>`;
+    w.appendChild(item);
+  });
+}
+
+// ── CLIENTS ──
+function renderClients(filter='all'){
+  const tb=document.getElementById('ctbody');
+  if(!tb) return;
+  let data=[...D.clients];
+  if(filter==='individual') data=data.filter(c=>c.type==='individual');
+  if(filter==='corporate')  data=data.filter(c=>c.type==='corporate');
+  if(filter==='active')     data=data.filter(c=>c.status==='active');
+  tb.innerHTML=data.map(c=>`
+    <tr>
+      <td><div class="df ac g8"><div class="av ${esc(c.col)}">${esc(c.ini)}</div><div><div class="f6">${esc(c.name)}</div><div class="fx c-m">${esc(c.email)}</div></div></div></td>
+      <td>${esc(c.phone)}</td>
+      <td><span class="badge ${c.type==='individual'?'bso':'bsp'}">${c.type==='individual'?'فرد':'شركة'}</span></td>
+      <td><span class="badge bsi">${esc(c.cases)}</span></td>
+      <td class="fx c-m">${fdate(c.date)}</td>
+      <td><span class="badge ${sbadge(c.status)}">${slabel(c.status)}</span></td>
+      <td>
+        <div class="df g8">
+          <button class="btn bo bs bi" onclick="toast('عرض بيانات الموكل','info')" title="عرض"><i class="ti ti-eye"></i></button>
+          <button class="btn bo bs bi" onclick="editClient('${c.id}')" title="تعديل"><i class="ti ti-edit"></i></button>
+          <button class="btn bd bs bi" onclick="delClient('${c.id}')" title="حذف"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function filterClients(f,el){
+  document.querySelectorAll('#page-clients .fc2').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderClients(f);
+}
+
+function delClient(id){
+  showConfirm('هل تريد حذف هذا الموكل نهائياً؟', ()=>{
+    if(!IS_GAS){
+      D.clients=D.clients.filter(c=>String(c.id)!==String(id));saveData();renderClients();toast('تم حذف الموكل','success');return;
+    }
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){
+        showLoading(false);
+        if(res&&res.ok){D.clients=D.clients.filter(c=>String(c.id)!==String(id));renderClients();toast('تم حذف الموكل','success');}
+        else{toast((res&&res.error)||'فشل الحذف','danger');}
+      })
+      .withFailureHandler(gasError('delClient'))
+      .apiDeleteClient(id);
+  });
+}
+
+function saveClient(){
+  const name=document.getElementById('nc-name')?.value?.trim();
+  const phone=document.getElementById('nc-phone')?.value?.trim();
+  if(!name||!phone){toast('يرجى ملء الحقول المطلوبة','warning');return;}
+  const data={name,phone,email:document.getElementById('nc-email')?.value?.trim()||'',type:'individual'};
+  if(!IS_GAS){
+    // وضع التطوير
+    const ini=name.split(' ').slice(0,2).map(w=>w[0]).join('');
+    const cols=['','av-b','av-p','av-g','av-r'];
+    D.clients.unshift({id:Date.now(),name,phone,email:data.email,type:'individual',cases:0,status:'active',date:new Date().toISOString().slice(0,10),ini,col:cols[Math.floor(Math.random()*cols.length)]});
+    saveData();renderClients();refreshClientDropdowns();updateSidebarBadges();
+    closeM('m-nclient');toast('تم إضافة الموكل بنجاح ✓','success');
+    ['nc-name','nc-phone','nc-email'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){
+        D.clients.unshift(res.data);
+        renderClients();refreshClientDropdowns();updateSidebarBadges();
+        closeM('m-nclient');
+        toast('تم إضافة الموكل بنجاح ✓','success');
+        ['nc-name','nc-phone','nc-email'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      } else {
+        toast((res&&res.error)||'فشل حفظ الموكل','danger');
+      }
+    })
+    .withFailureHandler(gasError('saveClient'))
+    .apiSaveClient(data);
+}
+
+// تحديث قوائم الموكلين المنسدلة في النماذج
+function refreshClientDropdowns(){
+  const selects=['nc2-client','ni-client'];
+  selects.forEach(sid=>{
+    const sel=document.getElementById(sid);
+    if(!sel) return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">-- اختر الموكل --</option>'+D.clients.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('');
+    sel.value=cur;
+  });
+}
+
+// تحديث قوائم القضايا المنسدلة في النماذج
+function refreshCaseDropdowns(){
+  const selects=['ns-case','nt-case','no-case'];
+  selects.forEach(sid=>{
+    const sel=document.getElementById(sid);
+    if(!sel) return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">-- اختر القضية --</option>'+D.cases.map(c=>`<option value="${esc(c.num)} — ${esc(c.client)}">${esc(c.num)} — ${esc(c.client)}</option>`).join('');
+    sel.value=cur;
+  });
+}
+
+function searchTbl(q,tbId,type){
+  if(!q){if(type==='clients') renderClients();if(type==='cases') renderCases();return;}
+  const tb=document.getElementById(tbId);
+  if(!tb) return;
+  if(type==='clients'){
+    const res=D.clients.filter(c=>c.name.includes(q)||c.phone.includes(q)||c.email.includes(q));
+    tb.innerHTML=res.length?res.map(c=>`<tr><td><div class="df ac g8"><div class="av ${esc(c.col)}">${esc(c.ini)}</div><div><div class="f6">${esc(c.name)}</div><div class="fx c-m">${esc(c.email)}</div></div></div></td><td>${esc(c.phone)}</td><td><span class="badge ${c.type==='individual'?'bso':'bsp'}">${c.type==='individual'?'فرد':'شركة'}</span></td><td><span class="badge bsi">${esc(c.cases)}</span></td><td class="fx c-m">${fdate(c.date)}</td><td><span class="badge ${sbadge(c.status)}">${slabel(c.status)}</span></td><td></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">لا توجد نتائج</td></tr>';
+  }
+}
+
+function gsrch(q){
+  if(!q||q.length<2){toast('أدخل كلمتين على الأقل للبحث','warning');return;}
+  const rc=D.clients.filter(c=>c.name.includes(q)||c.phone.includes(q)||c.email.includes(q));
+  const rcs=D.cases.filter(c=>c.num.includes(q)||c.client.includes(q)||c.court.includes(q));
+  const rt=D.tasks.filter(t=>t.title.includes(q));
+  const total=rc.length+rcs.length+rt.length;
+  if(total===0){toast(`لا توجد نتائج لـ "${q}"`, 'info');return;}
+  // الانتقال للصفحة الأكثر نتائج
+  if(rc.length>=rcs.length&&rc.length>=rt.length){go('clients');}
+  else if(rcs.length>=rc.length&&rcs.length>=rt.length){go('cases');}
+  else{go('tasks');}
+  toast(`وُجد ${total} نتيجة — موكلون: ${rc.length} | قضايا: ${rcs.length} | مهام: ${rt.length}`,'success');
+  document.getElementById('gsearch').value='';
+}
+
+// ── CASES ──
+function renderCases(filter='all'){
+  const tb=document.getElementById('castbody');
+  if(!tb) return;
+  let data=[...D.cases];
+  if(filter==='active')  data=data.filter(c=>c.status==='active');
+  if(filter==='pending') data=data.filter(c=>c.status==='pending');
+  tb.innerHTML=data.map(c=>`
+    <tr>
+      <td><div class="fm c-n">${esc(c.num)}</div></td>
+      <td class="f6">${esc(c.client)}</td>
+      <td><div class="fx">${esc(c.court)}</div><div class="fx c-m">${esc(c.circ)}</div></td>
+      <td><span class="badge ${ctbadge(c.type)}">${esc(c.type)}</span></td>
+      <td><span class="badge ${degbadge(c.deg)}">${esc(c.deg)}</span></td>
+      <td><div class="fx f6 ${isurg(c.sess)?'c-r':''}">${fdate(c.sess)}</div></td>
+      <td><span class="badge ${sbadge(c.status)}">${slabel(c.status)}</span></td>
+      <td><div class="df g8">
+        <button class="btn bo bs bi" onclick="toast('عرض تفاصيل القضية','info')"><i class="ti ti-eye"></i></button>
+        <button class="btn bo bs bi" onclick="editCase('${c.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn bo bs bi" onclick="openM('m-nsess')" title="إضافة جلسة"><i class="ti ti-calendar-plus"></i></button>
+        <button class="btn bd bs bi" onclick="delCase('${c.id}')" title="حذف القضية"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function filterCases(f,el){
+  document.querySelectorAll('#page-cases .fc2').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderCases(f);
+}
+
+function delCase(id){
+  const c=D.cases.find(x=>String(x.id)===String(id));
+  if(!c) return;
+  showConfirm('هل تريد حذف هذه القضية وكل الجلسات المرتبطة بها نهائياً؟', ()=>{
+    if(!IS_GAS){
+      D.sessions=D.sessions.filter(s=>s.cnum!==c.num);
+      D.cases=D.cases.filter(x=>String(x.id)!==String(id));
+      saveData();renderCases();renderSessions();updateSidebarBadges();
+      const cal1=document.getElementById('cal1');if(cal1)cal1.dataset.built='';
+      const cal2=document.getElementById('cal2');if(cal2)cal2.dataset.built='';
+      buildCal('cal1',true);buildCal('cal2',true);
+      toast('تم حذف القضية','success');return;
+    }
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){
+        showLoading(false);
+        if(res&&res.ok){
+          D.sessions=D.sessions.filter(s=>s.cnum!==c.num);
+          D.cases=D.cases.filter(x=>String(x.id)!==String(id));
+          renderCases();renderSessions();updateSidebarBadges();
+          const cal1=document.getElementById('cal1');if(cal1)cal1.dataset.built='';
+          const cal2=document.getElementById('cal2');if(cal2)cal2.dataset.built='';
+          buildCal('cal1',true);buildCal('cal2',true);
+          toast('تم حذف القضية','success');
+        } else {toast((res&&res.error)||'فشل حذف القضية','danger');}
+      })
+      .withFailureHandler(gasError('delCase'))
+      .apiDeleteCase(id);
+  });
+}
+
+function saveCase(){
+  const num=document.getElementById('nc2-num')?.value?.trim();
+  const client=document.getElementById('nc2-client')?.value;
+  const court=document.getElementById('nc2-court')?.value;
+  if(!num||!client||!court){toast('يرجى ملء الحقول المطلوبة','warning');return;}
+  const year=document.getElementById('nc2-year')?.value||'2026';
+  const data={num,year,client,court,circ:document.getElementById('nc2-circ')?.value||'',type:document.getElementById('nc2-type')?.value||'مدني',deg:document.getElementById('nc2-deg')?.value||'ابتدائي',sess:document.getElementById('nc2-sess')?.value||''};
+  const resetCase=()=>{['nc2-num','nc2-circ','nc2-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const c2court=document.getElementById('nc2-court');if(c2court)c2court.value='';const c2client=document.getElementById('nc2-client');if(c2client)c2client.value='';const c2sess=document.getElementById('nc2-sess');if(c2sess)c2sess.value='';};
+  if(!IS_GAS){
+    D.cases.unshift({id:Date.now(),num:`${num}/${year}`,client,court,circ:data.circ,type:data.type,deg:data.deg,sess:data.sess,status:'active'});
+    saveData();renderCases();closeM('m-ncase');updateSidebarBadges();toast('تم إنشاء القضية بنجاح ✓','success');resetCase();return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){
+        D.cases.unshift(res.data);
+        renderCases();closeM('m-ncase');updateSidebarBadges();toast('تم إنشاء القضية بنجاح ✓','success');resetCase();
+      } else {toast((res&&res.error)||'فشل حفظ القضية','danger');}
+    })
+    .withFailureHandler(gasError('saveCase'))
+    .apiSaveCase(data);
+}
+
+// ── SESSIONS ──
+function renderSessions(){
+  const tb=document.getElementById('sesstbody');
+  if(!tb) return;
+  tb.innerHTML=D.sessions.map(s=>`
+    <tr>
+      <td><div class="f6">${esc(s.cnum)}</div><div class="fx c-m">${esc(s.client)}</div></td>
+      <td class="fx">${esc(s.court)}</td>
+      <td><div class="f6 ${s.status==='upcoming'&&isurg(s.date)?'c-r':''}">${fdate(s.date)}</div><div class="fx c-m">${esc(s.time)}</div></td>
+      <td>${s.dec?`<span class="badge bsw">${esc(s.dec)}</span>`:'<span class="c-m fx">—</span>'}</td>
+      <td class="fx">${esc(s.next)||'—'}</td>
+      <td><span class="badge ${s.status==='upcoming'?'bsi':'bsm'}">${s.status==='upcoming'?'قادمة':'سابقة'}</span></td>
+      <td><div class="df g8">
+        <button class="btn bo bs bi" onclick="editSess('${s.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn bg bs bi" onclick="recordSessDecision('${s.id}')"><i class="ti ti-check"></i></button>
+        <button class="btn bd bs bi" onclick="delSess('${s.id}')" title="حذف الجلسة"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function delSess(id){
+  const s=D.sessions.find(x=>String(x.id)===String(id));
+  if(!s) return;
+  showConfirm('هل تريد حذف هذه الجلسة نهائياً؟', ()=>{
+    const afterDelete=()=>{
+      D.sessions=D.sessions.filter(x=>String(x.id)!==String(id));
+      renderSessions();updateSidebarBadges();
+      const cal1=document.getElementById('cal1');if(cal1)cal1.dataset.built='';
+      const cal2=document.getElementById('cal2');if(cal2)cal2.dataset.built='';
+      buildCal('cal1',true);buildCal('cal2',true);
+      toast('تم حذف الجلسة','success');
+    };
+    if(!IS_GAS){afterDelete();saveData();return;}
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){
+        showLoading(false);
+        if(res&&res.ok){afterDelete();}
+        else{toast((res&&res.error)||'فشل حذف الجلسة','danger');}
+      })
+      .withFailureHandler(gasError('delSess'))
+      .apiDeleteSession(id);
+  });
+}
+
+function saveSess(){
+  const cas=document.getElementById('ns-case')?.value;
+  const date=document.getElementById('ns-date')?.value;
+  if(!cas||!date){toast('يرجى اختيار القضية والتاريخ','warning');return;}
+  const data={caseLabel:cas,date,time:document.getElementById('ns-time')?.value||'09:00',court:document.getElementById('ns-court')?.value||'',notes:document.getElementById('ns-notes')?.value||''};
+  const resetSess=()=>{const nsCase=document.getElementById('ns-case');if(nsCase)nsCase.value='';const nsDate=document.getElementById('ns-date');if(nsDate)nsDate.value='';const nsTime=document.getElementById('ns-time');if(nsTime)nsTime.value='09:00';const nsCourt=document.getElementById('ns-court');if(nsCourt)nsCourt.value='';const nsNotes=document.getElementById('ns-notes');if(nsNotes)nsNotes.value='';};
+  const afterSave=()=>{renderSessions();const cal1=document.getElementById('cal1');if(cal1)cal1.dataset.built='';const cal2=document.getElementById('cal2');if(cal2)cal2.dataset.built='';buildCal('cal1',true);buildCal('cal2',true);updateSidebarBadges();closeM('m-nsess');toast('تم تسجيل الجلسة وإرسال التذكيرات ✓','success');resetSess();};
+  if(!IS_GAS){
+    D.sessions.unshift({id:Date.now(),cnum:cas.split('—')[0].trim(),client:cas.split('—')[1]?.trim()||'',court:data.court,date,time:data.time,dec:'',next:'',status:'upcoming'});
+    saveData();afterSave();return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){D.sessions.unshift(res.data);afterSave();}
+      else{toast((res&&res.error)||'فشل حفظ الجلسة','danger');}
+    })
+    .withFailureHandler(gasError('saveSess'))
+    .apiSaveSession(data);
+}
+
+// ── INVOICES ──
+function renderInvoices(){
+  const tb=document.getElementById('invtbody');
+  if(!tb) return;
+  const total=D.invoices.reduce((s,i)=>s+i.amount,0);
+  const paid=D.invoices.filter(i=>i.status==='paid').reduce((s,i)=>s+i.amount,0);
+  const due=total-paid;
+  const sk=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v.toLocaleString('ar-EG')+' ج.م';};
+  sk('kpi-t',total);sk('kpi-p',paid);sk('kpi-d',due);
+  tb.innerHTML=D.invoices.map(inv=>`
+    <tr>
+      <td class="fm">${esc(inv.num)}</td>
+      <td class="f6">${esc(inv.client)}</td>
+      <td class="fx c-m">${esc(inv.cas)}</td>
+      <td><span class="badge bso">${esc(inv.type)}</span></td>
+      <td class="fm c-n">${inv.amount.toLocaleString('ar-EG')} ج.م</td>
+      <td class="fx ${inv.status==='overdue'?'c-r fm':''}">${fdate(inv.due)}</td>
+      <td><span class="badge ${invbadge(inv.status)}">${invlabel(inv.status)}</span></td>
+      <td><div class="df g8">
+        ${inv.status!=='paid'?`<button class="btn bg bs" onclick="markPaid('${inv.id}')">تحصيل</button>`:''}
+        <button class="btn bo bs bi" onclick="toast('تحميل فاتورة PDF','info')"><i class="ti ti-download"></i></button>
+        <button class="btn bo bs bi" onclick="toast('إرسال للموكل','info')"><i class="ti ti-send"></i></button>
+        <button class="btn bd bs bi" onclick="delInv('${inv.id}')" title="حذف الفاتورة"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function delInv(id){
+  const inv=D.invoices.find(i=>String(i.id)===String(id));
+  if(!inv) return;
+  showConfirm('هل تريد حذف هذه الفاتورة نهائياً؟', ()=>{
+    if(!IS_GAS){
+      D.invoices=D.invoices.filter(i=>String(i.id)!==String(id));saveData();renderInvoices();toast('تم حذف الفاتورة','success');return;
+    }
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){
+        showLoading(false);
+        if(res&&res.ok){D.invoices=D.invoices.filter(i=>String(i.id)!==String(id));renderInvoices();toast('تم حذف الفاتورة','success');}
+        else{toast((res&&res.error)||'فشل حذف الفاتورة','danger');}
+      })
+      .withFailureHandler(gasError('delInv'))
+      .apiDeleteInvoice(id);
+  });
+}
+
+function markPaid(id){
+  const inv=D.invoices.find(i=>String(i.id)===String(id));
+  if(!inv) return;
+  if(!IS_GAS){inv.status='paid';saveData();renderInvoices();toast('تم تسجيل الدفع بنجاح ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){inv.status='paid';renderInvoices();toast('تم تسجيل الدفع بنجاح ✓','success');}
+      else{toast((res&&res.error)||'فشل تحديث الفاتورة','danger');}
+    })
+    .withFailureHandler(gasError('markPaid'))
+    .apiMarkPaid(id);
+}
+
+function exportToSheets(){
+  if(!IS_GAS){toast('تصدير Excel متاح فقط بعد النشر على Apps Script','warning');return;}
+  showLoading(true);
+  toast('جارٍ تصدير التقرير إلى Google Sheets...','info');
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok&&res.sheetUrl){
+        toast('تم إنشاء التقرير بنجاح ✓','success');
+        window.open(res.sheetUrl,'_blank');
+      } else {
+        toast((res&&res.error)||'فشل تصدير التقرير','danger');
+      }
+    })
+    .withFailureHandler(gasError('exportToSheets'))
+    .apiExportToSheets();
+}
+
+function saveInv(){
+  const client=document.getElementById('ni-client')?.value;
+  const amount=parseFloat(document.getElementById('ni-amount')?.value);
+  if(!client||!amount){toast('يرجى ملء الحقول المطلوبة','warning');return;}
+  const data={client,cas:document.getElementById('ni-case')?.value||'—',type:document.getElementById('ni-type')?.value||'أتعاب محاماة',amount,desc:document.getElementById('ni-desc')?.value?.trim()||'',due:document.getElementById('ni-due')?.value||'',payment:document.getElementById('ni-payment')?.value||'نقداً'};
+  const resetInv=()=>{['ni-client','ni-case','ni-amount','ni-due','ni-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});};
+  if(!IS_GAS){
+    const maxNum=D.invoices.reduce((mx,i)=>{const n=parseInt(i.num.split('-')[2])||0;return n>mx?n:mx;},0);
+    D.invoices.unshift({id:Date.now(),num:`INV-2026-${String(maxNum+1).padStart(3,'0')}`,status:'pending',...data});
+    saveData();renderInvoices();closeM('m-ninv');toast('تم إنشاء الفاتورة وإرسالها ✓','success');resetInv();return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){D.invoices.unshift(res.data);renderInvoices();closeM('m-ninv');toast('تم إنشاء الفاتورة وإرسالها ✓','success');resetInv();}
+      else{toast((res&&res.error)||'فشل حفظ الفاتورة','danger');}
+    })
+    .withFailureHandler(gasError('saveInv'))
+    .apiSaveInvoice(data);
+}
+
+// ── TASKS ──
+function renderTasks(){
+  const tb=document.getElementById('tasktbody');
+  if(!tb) return;
+  tb.innerHTML=D.tasks.map(t=>`
+    <tr>
+      <td class="f6">${esc(t.title)}</td>
+      <td class="fx c-m">${esc(t.cas)}</td>
+      <td><span class="badge bso">${esc(t.type)}</span></td>
+      <td><span class="badge ${t.pri==='urgent'?'bsd':'bsi'}">${t.pri==='urgent'?'عاجل':'عادية'}</span></td>
+      <td class="fx ${isurg(t.due)?'c-r fm':''}">${fdate(t.due)}</td>
+      <td><span class="badge ${tskbadge(t.status)}">${tsklabel(t.status)}</span></td>
+      <td><div class="df g8">
+        ${t.status!=='done'?`<button class="btn bg bs bi" onclick="doneTask('${t.id}')" title="إتمام"><i class="ti ti-check"></i></button>`:''}
+        <button class="btn bo bs bi" onclick="editTask('${t.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn bd bs bi" onclick="delTask('${t.id}')"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function doneTask(id){
+  const t=D.tasks.find(x=>String(x.id)===String(id));
+  if(!t) return;
+  if(!IS_GAS){t.status='done';saveData();renderTasks();updateSidebarBadges();toast('تم إتمام المهمة ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){showLoading(false);if(res&&res.ok){t.status='done';renderTasks();updateSidebarBadges();toast('تم إتمام المهمة ✓','success');}else{toast((res&&res.error)||'فشل التحديث','danger');}})
+    .withFailureHandler(gasError('doneTask'))
+    .apiUpdateTask(id,{status:'done'});
+}
+function delTask(id){
+  showConfirm('حذف هذه المهمة؟',()=>{
+    if(!IS_GAS){D.tasks=D.tasks.filter(t=>String(t.id)!==String(id));saveData();renderTasks();updateSidebarBadges();toast('تم حذف المهمة','success');return;}
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){showLoading(false);if(res&&res.ok){D.tasks=D.tasks.filter(t=>String(t.id)!==String(id));renderTasks();updateSidebarBadges();toast('تم حذف المهمة','success');}else{toast((res&&res.error)||'فشل الحذف','danger');}})
+      .withFailureHandler(gasError('delTask'))
+      .apiDeleteTask(id);
+  });
+}
+
+function editTask(id){
+  const t=D.tasks.find(x=>String(x.id)===String(id));
+  if(!t) return;
+  const newTitle=prompt('تعديل المهمة:',t.title);
+  if(!newTitle||!newTitle.trim()) return;
+  if(!IS_GAS){t.title=newTitle.trim();saveData();renderTasks();toast('تم تعديل المهمة ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){showLoading(false);if(res&&res.ok){t.title=newTitle.trim();renderTasks();toast('تم تعديل المهمة ✓','success');}else{toast((res&&res.error)||'فشل التعديل','danger');}})
+    .withFailureHandler(gasError('editTask'))
+    .apiUpdateTask(id,{title:newTitle.trim()});
+}
+
+function editClient(id){
+  const c=D.clients.find(x=>String(x.id)===String(id));
+  if(!c) return;
+  const newName=prompt('اسم الموكل:',c.name);
+  if(!newName||!newName.trim()) return;
+  const newPhone=prompt('رقم الهاتف:',c.phone);
+  if(!newPhone||!newPhone.trim()) return;
+  const ini=newName.trim().split(' ').slice(0,2).map(w=>w[0]).join('');
+  if(!IS_GAS){
+    c.name=newName.trim();c.phone=newPhone.trim();c.ini=ini;
+    saveData();renderClients();refreshClientDropdowns();toast('تم تعديل بيانات الموكل ✓','success');return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){
+        c.name=newName.trim();c.phone=newPhone.trim();c.ini=ini;
+        renderClients();refreshClientDropdowns();toast('تم تعديل بيانات الموكل ✓','success');
+      } else {toast((res&&res.error)||'فشل التعديل','danger');}
+    })
+    .withFailureHandler(gasError('editClient'))
+    .apiUpdateClient(id,{name:newName.trim(),phone:newPhone.trim()});
+}
+
+function editCase(id){
+  const c=D.cases.find(x=>String(x.id)===String(id));
+  if(!c) return;
+  const newStatus=prompt('الحالة (active/pending/closed):',c.status);
+  if(!newStatus||!['active','pending','closed'].includes(newStatus)) return;
+  if(!IS_GAS){c.status=newStatus;saveData();renderCases();toast('تم تعديل القضية ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){c.status=newStatus;renderCases();toast('تم تعديل القضية ✓','success');}
+      else{toast((res&&res.error)||'فشل التعديل','danger');}
+    })
+    .withFailureHandler(gasError('editCase'))
+    .apiUpdateCase(id,{status:newStatus});
+}
+
+function editSess(id){
+  const s=D.sessions.find(x=>String(x.id)===String(id));
+  if(!s) return;
+  const newDate=prompt('تاريخ الجلسة (YYYY-MM-DD):',s.date);
+  if(!newDate||!newDate.match(/^\d{4}-\d{2}-\d{2}$/)) return;
+  if(!IS_GAS){s.date=newDate;saveData();renderSessions();buildCal('cal1',true);buildCal('cal2',true);toast('تم تعديل الجلسة ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){s.date=newDate;renderSessions();buildCal('cal1',true);buildCal('cal2',true);toast('تم تعديل الجلسة ✓','success');}
+      else{toast((res&&res.error)||'فشل تعديل الجلسة','danger');}
+    })
+    .withFailureHandler(gasError('editSess'))
+    .apiUpdateSession(id,{date:newDate});
+}
+
+function recordSessDecision(id){
+  const s=D.sessions.find(x=>String(x.id)===String(id));
+  if(!s) return;
+  const dec=prompt('قرار الجلسة (تأجيل / فصل / إحالة ...):','تأجيل');
+  if(!dec) return;
+  const next=prompt('موعد الجلسة القادمة:','');
+  const updates={dec:dec.trim(),next:next?next.trim():'',status:'past'};
+  if(!IS_GAS){Object.assign(s,updates);saveData();renderSessions();toast('تم تسجيل قرار الجلسة ✓','success');return;}
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){Object.assign(s,updates);renderSessions();toast('تم تسجيل قرار الجلسة ✓','success');}
+      else{toast((res&&res.error)||'فشل التسجيل','danger');}
+    })
+    .withFailureHandler(gasError('recordSessDecision'))
+    .apiUpdateSession(id,updates);
+}
+
+// ── OPPONENTS DATA ──
+if(!D.opponents) D.opponents=[];
+
+function _oppInitials(name){
+  if(!name) return '?';
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('');
+}
+
+function renderOpponents(){
+  const el=document.getElementById('opplist');
+  if(!el) return;
+  if(!D.opponents.length){
+    el.innerHTML='<div class="fx c-m" style="text-align:center;padding:24px">لا يوجد خصوم مسجّلون</div>';
+    return;
+  }
+  el.innerHTML=D.opponents.map(o=>`
+    <div class="op-row">
+      <div class="av av-b">${esc(_oppInitials(o.name))}</div>
+      <div class="f1">
+        <div class="f6">${esc(o.name)}</div>
+        <div class="fx c-m">القضية: ${esc(o.cas||'—')} | المحامي: ${esc(o.lawyer||'غير ممثل')}${o.phone?(' | '+esc(o.phone)):''}</div>
+      </div>
+      <button class="btn bo bs bi" onclick="editOpp('${o.id}')" title="تعديل"><i class="ti ti-edit"></i></button>
+      <button class="btn bd bs bi" onclick="delOpp('${o.id}')" title="حذف"><i class="ti ti-trash"></i></button>
+    </div>`).join('');
+}
+
+function editOpp(id){
+  const o=D.opponents.find(x=>String(x.id)===String(id));
+  if(!o) return;
+  const newName=prompt('اسم الخصم:',o.name);
+  if(!newName||!newName.trim()) return;
+  const newLawyer=prompt('محامي الخصم:',o.lawyer||'');
+  if(!IS_GAS){
+    o.name=newName.trim();o.lawyer=(newLawyer||'').trim();
+    saveData();renderOpponents();toast('تم تعديل بيانات الخصم ✓','success');return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){
+        o.name=newName.trim();o.lawyer=(newLawyer||'').trim();
+        renderOpponents();toast('تم تعديل بيانات الخصم ✓','success');
+      } else {toast((res&&res.error)||'فشل التعديل','danger');}
+    })
+    .withFailureHandler(gasError('editOpp'))
+    .apiUpdateOpponent(id,{name:newName.trim(),lawyer:(newLawyer||'').trim()});
+}
+
+function delOpp(id){
+  showConfirm('هل تريد حذف هذا الخصم نهائياً؟', ()=>{
+    if(!IS_GAS){
+      D.opponents=D.opponents.filter(o=>String(o.id)!==String(id));saveData();renderOpponents();toast('تم حذف الخصم','success');return;
+    }
+    showLoading(true);
+    google.script.run
+      .withSuccessHandler(function(res){
+        showLoading(false);
+        if(res&&res.ok){D.opponents=D.opponents.filter(o=>String(o.id)!==String(id));renderOpponents();toast('تم حذف الخصم','success');}
+        else{toast((res&&res.error)||'فشل الحذف','danger');}
+      })
+      .withFailureHandler(gasError('delOpp'))
+      .apiDeleteOpponent(id);
+  });
+}
+
+function saveOpp(){
+  const name=document.getElementById('no-name')?.value?.trim();
+  if(!name){toast('يرجى كتابة اسم الخصم','warning');return;}
+  const data={name,cas:document.getElementById('no-case')?.value||'',lawyer:document.getElementById('no-lawyer')?.value?.trim()||'',phone:document.getElementById('no-phone')?.value?.trim()||'',notes:document.getElementById('no-notes')?.value?.trim()||''};
+  const resetOpp=()=>{['no-name','no-lawyer','no-phone','no-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const noCase=document.getElementById('no-case');if(noCase)noCase.value='';};
+  if(!IS_GAS){
+    D.opponents.push({id:Date.now(),...data});saveData();renderOpponents();closeM('m-nopp');toast('تم إضافة الخصم ✓','success');resetOpp();return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){D.opponents.push(res.data);renderOpponents();closeM('m-nopp');toast('تم إضافة الخصم ✓','success');resetOpp();}
+      else{toast((res&&res.error)||'فشل حفظ الخصم','danger');}
+    })
+    .withFailureHandler(gasError('saveOpp'))
+    .apiSaveOpponent(data);
+}
+
+// ── SIDEBAR BADGES ──
+function updateSidebarBadges(){
+  // قضايا نشطة
+  const activeCases=D.cases.filter(c=>c.status==='active'||c.status==='pending').length;
+  const casesBadge=document.querySelector('.ni[data-page="cases"] .nb');
+  if(casesBadge) casesBadge.textContent=activeCases;
+  // جلسات قادمة
+  const upcomingSess=D.sessions.filter(s=>s.status==='upcoming').length;
+  const sessBadge=document.querySelector('.ni[data-page="sessions"] .nb');
+  if(sessBadge) sessBadge.textContent=upcomingSess;
+  // مهام معلقة وجارية
+  const pendingTasks=D.tasks.filter(t=>t.status!=='done').length;
+  const tasksBadge=document.querySelector('.ni[data-page="tasks"] .nb');
+  if(tasksBadge) tasksBadge.textContent=pendingTasks;
+  // موكلون
+  const clientsBadge=document.querySelector('.ni[data-page="clients"] .nb');
+  if(clientsBadge) clientsBadge.textContent=D.clients.length;
+}
+
+function saveTask(){
+  const title=document.getElementById('nt-title')?.value?.trim();
+  if(!title){toast('يرجى كتابة وصف المهمة','warning');return;}
+  const data={title,cas:document.getElementById('nt-case')?.value||'—',type:document.getElementById('nt-type')?.value||'مهمة',pri:document.getElementById('nt-pri')?.value||'normal',due:document.getElementById('nt-due')?.value||''};
+  const resetTask=()=>{['nt-title','nt-due'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const ntCase=document.getElementById('nt-case');if(ntCase)ntCase.value='';};
+  if(!IS_GAS){
+    D.tasks.unshift({id:Date.now(),status:'pending',...data});
+    saveData();renderTasks();closeM('m-ntask');updateSidebarBadges();toast('تم إنشاء المهمة ✓','success');resetTask();return;
+  }
+  showLoading(true);
+  google.script.run
+    .withSuccessHandler(function(res){
+      showLoading(false);
+      if(res&&res.ok){D.tasks.unshift(res.data);renderTasks();closeM('m-ntask');updateSidebarBadges();toast('تم إنشاء المهمة ✓','success');resetTask();}
+      else{toast((res&&res.error)||'فشل حفظ المهمة','danger');}
+    })
+    .withFailureHandler(gasError('saveTask'))
+    .apiSaveTask(data);
+}
+
+const MONTH_NAMES=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+// ── CALENDAR ──
+function buildCal(id,force=false){
+  const grid=document.getElementById(id);
+  if(!grid||(grid.dataset.built&&!force)) return;
+  grid.dataset.built='1';
+  const sessDays=D.sessions.map(s=>{
+    const d=new Date(s.date);
+    const now=new Date();
+    return (d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth())?d.getDate():null;
+  }).filter(Boolean);
+  const now=new Date();
+  const year=now.getFullYear(),month=now.getMonth();
+  const startDay=new Date(year,month,1).getDay(); // 0=الأحد
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const today=now.getDate();
+  grid.innerHTML='';
+  for(let i=0;i<startDay;i++){const b=document.createElement('div');b.className='cd other';grid.appendChild(b);}
+  for(let d=1;d<=daysInMonth;d++){
+    const el=document.createElement('div');
+    el.className='cd';
+    if(d===today) el.classList.add('today');
+    if(sessDays.includes(d)) el.classList.add('has-s');
+    el.textContent=d;
+    if(sessDays.includes(d)) el.addEventListener('click',()=>toast(`جلسة في ${d} ${MONTH_NAMES[month]} ${year}`,'info'));
+    grid.appendChild(el);
+  }
+}
+
+// ── REPORTS & ACCOUNTING ──
+function initReports(){
+  setTimeout(()=>{
+    buildCasesChart();
+    buildFinChart('rep-fin-chart');
+  },60);
+}
+
+function buildCasesChart(){
+  const w=document.getElementById('rep-case-chart');
+  if(!w||w.dataset.built) return;
+  w.dataset.built='1';
+  const types=[{l:'جنائي',v:28,c:'bf-r'},{l:'مدني',v:42,c:'bf-b'},{l:'تجاري',v:35,c:'bf-o'},{l:'أسرة',v:18,c:'bf-g'},{l:'إداري',v:12,c:'bf-b'}];
+  const max=Math.max(...types.map(t=>t.v));
+  types.forEach(t=>{
+    const item=document.createElement('div');
+    item.className='bi2';
+    item.innerHTML=`<span class="bv">${t.v}</span><div class="bf ${t.c}" style="height:${Math.round((t.v/max)*90)}px"></div><span class="blb">${t.l}</span>`;
+    w.appendChild(item);
+  });
+}
+
+function buildFinChart(id){
+  const w=document.getElementById(id);
+  if(!w||w.dataset.built) return;
+  w.dataset.built='1';
+  const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو'];
+  const rev=[42,55,61,70,78,85],exp=[18,22,25,28,30,27];
+  const max=Math.max(...rev);
+  rev.forEach((v,i)=>{
+    const item=document.createElement('div');
+    item.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px';
+    // الذهبي للإيرادات — الأحمر للمصروفات
+    item.innerHTML=`<div style="width:100%;display:flex;gap:2px;align-items:flex-end"><div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-d));border-radius:3px 3px 0 0;height:${Math.round((v/max)*100)}px" title="إيرادات ${months[i]}: ${v}k"></div><div style="flex:1;background:linear-gradient(180deg,var(--red),#F87171);border-radius:3px 3px 0 0;height:${Math.round((exp[i]/max)*100)}px" title="مصروفات ${months[i]}: ${exp[i]}k"></div></div><span style="font-size:10px;color:var(--muted)">${months[i].slice(0,3)}</span>`;
+    w.appendChild(item);
+  });
+}
+
+function initAccounting(){
+  // إعادة تعيين لضمان إعادة البناء عند العودة للصفحة
+  const ac=document.getElementById('acc-chart');
+  if(ac){ac.innerHTML='';ac.dataset.built='';}
+  buildFinChart('acc-chart');
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded',()=>{
+  loadDataFromServer();
+  document.addEventListener('click',e=>{
+    const sb=document.getElementById('sidebar');
+    if(window.innerWidth<=768&&sb.classList.contains('mob')&&!sb.contains(e.target)&&!e.target.closest('.tb-tog')) sb.classList.remove('mob');
+  });
+});
+</script>
+</body>
+</html>
